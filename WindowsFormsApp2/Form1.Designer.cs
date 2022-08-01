@@ -579,6 +579,8 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.label67 = new System.Windows.Forms.Label();
+            this.textBox17 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -800,6 +802,8 @@
             // 
             // groupBox33
             // 
+            this.groupBox33.Controls.Add(this.label67);
+            this.groupBox33.Controls.Add(this.textBox17);
             this.groupBox33.Controls.Add(this.label65);
             this.groupBox33.Controls.Add(this.textBox12);
             this.groupBox33.Controls.Add(this.label64);
@@ -6572,6 +6576,23 @@
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // label67
+            // 
+            this.label67.Location = new System.Drawing.Point(318, 81);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(80, 22);
+            this.label67.TabIndex = 87;
+            this.label67.Text = "ConnectorID";
+            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(399, 83);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(32, 21);
+            this.textBox17.TabIndex = 86;
+            this.textBox17.Text = "1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -7224,6 +7245,8 @@
         private System.Windows.Forms.Timer timer3;
         private System.Windows.Forms.Button button145;
         private System.Windows.Forms.Button button147;
+        private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.TextBox textBox17;
     }
 }
 

@@ -12836,7 +12836,7 @@ namespace WindowsFormsApp2
         private void evcarStatusNT(string status)
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("errorCode", "NoError");
 
             var json2 = new JObject();
@@ -13039,7 +13039,7 @@ namespace WindowsFormsApp2
             json.Add("messageId", "chargeValue");
 
             var json2 = new JObject();
-            json2.Add("connectorId", 0);
+            json2.Add("connectorId", int.Parse(textBox17.Text));
             json2.Add("idTag", textBox15.Text);
             json2.Add("transactionId", Convert.ToUInt64(textBox9.Text));
             json2.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
@@ -13057,7 +13057,7 @@ namespace WindowsFormsApp2
             json.Add("messageId", "Tariff");
 
             var json2 = new JObject();
-            json2.Add("connectorId", 0);
+            json2.Add("connectorId", int.Parse(textBox17.Text));
             json2.Add("idTag", textBox15.Text);
             json2.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
@@ -13070,7 +13070,7 @@ namespace WindowsFormsApp2
         private void evcarStart()
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("idTag", textBox15.Text);
             int watt = int.Parse(tbWatt.Text);
             json.Add("meterStart", watt);
@@ -13141,7 +13141,7 @@ namespace WindowsFormsApp2
         private void btnStartST_Click(object sender, EventArgs e)
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("errorCode", "NoError");
 
             var json2 = new JObject();
@@ -13164,7 +13164,7 @@ namespace WindowsFormsApp2
         private void btnStopST_Click(object sender, EventArgs e)
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("errorCode", "NoError");
 
             var json2 = new JObject();
@@ -13233,7 +13233,7 @@ namespace WindowsFormsApp2
         private void button51_Click_1(object sender, EventArgs e)
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("errorCode", comboBox6.Text);
 
             var json2 = new JObject();
@@ -13263,7 +13263,7 @@ namespace WindowsFormsApp2
 
                     var json = new JObject();
                     json.Add("command", "RemoteStartTransaction");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("idTag", textBox15.Text);
                     json.Add("transactionId", Convert.ToUInt64(textBox9.Text));
                     json.Add("logid", charger.logid);
@@ -13522,7 +13522,7 @@ namespace WindowsFormsApp2
                     var json = new JObject();
                     json.Add("command", "TriggerMessage");
                     json.Add("requestedMessage", "MeterValues");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -13559,7 +13559,7 @@ namespace WindowsFormsApp2
                     var json = new JObject();
                     json.Add("command", "TriggerMessage");
                     json.Add("requestedMessage", "BootNotification");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -13634,7 +13634,7 @@ namespace WindowsFormsApp2
 
                     var json = new JObject();
                     json.Add("command", "UnlockConnector");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -13689,7 +13689,7 @@ namespace WindowsFormsApp2
             json.Add("messageId", "diagupload");
 
             var json2 = new JObject();
-            json2.Add("connectorId", 0);
+            json2.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("data", json2);
 
             string retStr = SendDataToEVSP(dataTruri, json.ToString());
@@ -13739,7 +13739,7 @@ namespace WindowsFormsApp2
                     var json = new JObject();
                     json.Add("command", "TriggerMessage");
                     json.Add("requestedMessage", "BootNotification");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -13778,7 +13778,7 @@ namespace WindowsFormsApp2
                     var json = new JObject();
                     json.Add("command", "TriggerMessage");
                     json.Add("requestedMessage", "BootNotification");
-                    json.Add("connectorId", 0);
+                    json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -13923,7 +13923,7 @@ namespace WindowsFormsApp2
         private void evcarMeter()
         {
             var json = new JObject();
-            json.Add("connectorId", 0);
+            json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("transactionId", Convert.ToUInt64(textBox9.Text));
 
             var jarray = new JArray();
@@ -14023,7 +14023,7 @@ namespace WindowsFormsApp2
             json4.Add("X-EVC-SN", "123456");
             json3.Add("msgHeader", json4);
 
-            json5.Add("connectorId", 0);
+            json5.Add("connectorId", int.Parse(textBox17.Text));
             json5.Add("errorCode", "NoError");
 
             json6.Add("reason", "None");
@@ -14060,7 +14060,7 @@ namespace WindowsFormsApp2
             json4.Add("X-EVC-SN", "123456");
             json3.Add("msgHeader", json4);
 
-            json5.Add("connectorId", 0);
+            json5.Add("connectorId", int.Parse(textBox17.Text));
             json5.Add("errorCode", "NoError");
 
             json6.Add("reason", "None");
