@@ -42,6 +42,8 @@
             this.label66 = new System.Windows.Forms.Label();
             this.button144 = new System.Windows.Forms.Button();
             this.groupBox33 = new System.Windows.Forms.GroupBox();
+            this.label67 = new System.Windows.Forms.Label();
+            this.textBox17 = new System.Windows.Forms.TextBox();
             this.label65 = new System.Windows.Forms.Label();
             this.textBox12 = new System.Windows.Forms.TextBox();
             this.label64 = new System.Windows.Forms.Label();
@@ -579,8 +581,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.label67 = new System.Windows.Forms.Label();
-            this.textBox17 = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -822,6 +822,23 @@
             this.groupBox33.TabStop = false;
             this.groupBox33.Text = "LTE라우터";
             // 
+            // label67
+            // 
+            this.label67.Location = new System.Drawing.Point(318, 81);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(80, 22);
+            this.label67.TabIndex = 87;
+            this.label67.Text = "ConnectorID";
+            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox17
+            // 
+            this.textBox17.Location = new System.Drawing.Point(399, 83);
+            this.textBox17.Name = "textBox17";
+            this.textBox17.Size = new System.Drawing.Size(32, 21);
+            this.textBox17.TabIndex = 86;
+            this.textBox17.Text = "1";
+            // 
             // label65
             // 
             this.label65.Location = new System.Drawing.Point(238, 81);
@@ -1054,7 +1071,7 @@
             this.textBox9.Name = "textBox9";
             this.textBox9.Size = new System.Drawing.Size(177, 21);
             this.textBox9.TabIndex = 105;
-            this.textBox9.Text = "2022062100001349";
+            this.textBox9.Text = "107432";
             // 
             // button43
             // 
@@ -1206,7 +1223,7 @@
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(206, 21);
             this.textBox15.TabIndex = 88;
-            this.textBox15.Text = "4688551019914133";
+            this.textBox15.Text = "1010010183808930";
             // 
             // button39
             // 
@@ -6575,23 +6592,6 @@
             // timer3
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // label67
-            // 
-            this.label67.Location = new System.Drawing.Point(318, 81);
-            this.label67.Name = "label67";
-            this.label67.Size = new System.Drawing.Size(80, 22);
-            this.label67.TabIndex = 87;
-            this.label67.Text = "ConnectorID";
-            this.label67.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox17
-            // 
-            this.textBox17.Location = new System.Drawing.Point(399, 83);
-            this.textBox17.Name = "textBox17";
-            this.textBox17.Size = new System.Drawing.Size(32, 21);
-            this.textBox17.TabIndex = 86;
-            this.textBox17.Text = "1";
             // 
             // Form1
             // 

@@ -13079,7 +13079,7 @@ namespace WindowsFormsApp2
                 json.Add("reservationId", textBox9.Text);
 
             string retStr = SendDataToEVSP(startTruri, json.ToString());
-            if (charger.state == "card" || charger.state == "remotestart")
+            if (charger.state == "start" || charger.state == "remotestart")
             {
                 if (retStr != string.Empty)
                 {
@@ -13089,11 +13089,13 @@ namespace WindowsFormsApp2
                     if (idTagInfo.ToString() != " ")
                     {
                         var status = jobj["idTagInfo"]["status"] ?? " ";
+                        var trid = jobj["transactionId"] ?? " ";
                         switch (status.ToString())
                         {
                             case "Accepted":        // 충전 가능
                                 charger.state = "start";
                                 label66.Text = charger.state;
+                                textBox9.Text = trid.ToString();
                                 evcarStatusNT("Charging");
 
                                 evcarMeter();
