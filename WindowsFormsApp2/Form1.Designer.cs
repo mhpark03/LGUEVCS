@@ -73,8 +73,6 @@
             this.btnStop = new System.Windows.Forms.Button();
             this.btnMeter = new System.Windows.Forms.Button();
             this.btnStart = new System.Windows.Forms.Button();
-            this.label57 = new System.Windows.Forms.Label();
-            this.tbWatt = new System.Windows.Forms.TextBox();
             this.btnCost = new System.Windows.Forms.Button();
             this.btntriff = new System.Windows.Forms.Button();
             this.btnHeart = new System.Windows.Forms.Button();
@@ -854,7 +852,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(32, 21);
             this.textBox12.TabIndex = 84;
-            this.textBox12.Text = "0A";
+            this.textBox12.Text = "1A";
             // 
             // label64
             // 
@@ -926,7 +924,7 @@
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(103, 21);
             this.textBox14.TabIndex = 18;
-            this.textBox14.Text = "11410000514";
+            this.textBox14.Text = "11410000515";
             // 
             // label63
             // 
@@ -956,8 +954,6 @@
             this.groupBox34.Controls.Add(this.btnStop);
             this.groupBox34.Controls.Add(this.btnMeter);
             this.groupBox34.Controls.Add(this.btnStart);
-            this.groupBox34.Controls.Add(this.label57);
-            this.groupBox34.Controls.Add(this.tbWatt);
             this.groupBox34.Controls.Add(this.btnCost);
             this.groupBox34.Controls.Add(this.btntriff);
             this.groupBox34.Controls.Add(this.btnHeart);
@@ -1149,23 +1145,6 @@
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
-            // 
-            // label57
-            // 
-            this.label57.Location = new System.Drawing.Point(33, 199);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(67, 22);
-            this.label57.TabIndex = 95;
-            this.label57.Text = "충전량";
-            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tbWatt
-            // 
-            this.tbWatt.Location = new System.Drawing.Point(124, 201);
-            this.tbWatt.Name = "tbWatt";
-            this.tbWatt.Size = new System.Drawing.Size(206, 21);
-            this.tbWatt.TabIndex = 94;
-            this.tbWatt.Text = "100";
             // 
             // btnCost
             // 
@@ -6281,7 +6260,7 @@
             this.tbDeviceCTN.Name = "tbDeviceCTN";
             this.tbDeviceCTN.Size = new System.Drawing.Size(114, 21);
             this.tbDeviceCTN.TabIndex = 40;
-            this.tbDeviceCTN.Text = "01222991768";
+            this.tbDeviceCTN.Text = "01222991772";
             // 
             // label26
             // 
@@ -7196,8 +7175,6 @@
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Button btnMeter;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Label label57;
-        private System.Windows.Forms.TextBox tbWatt;
         private System.Windows.Forms.Button btnCost;
         private System.Windows.Forms.Button btnRemoteStop;
         private System.Windows.Forms.Button btnOneM2M;

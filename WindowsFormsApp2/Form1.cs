@@ -12602,19 +12602,22 @@ namespace WindowsFormsApp2
                     transid = (obj["transactionId"] ?? " ").ToString();
                     textBox9.Invoke(new LogToForm(setParam), new object[] { "2" + transid });
 
-                    if (charger.state == "heart")
-                    {
-                        charger.state = "card";
-                        label66.Invoke(new LogToForm(setParam), new object[] { "3" + charger.state });
-                        evcarStatusNT("Preparing");
-                        evcarTariff();
-                        evcarCost();
-                    }
                     charger.state = "remotestart";
+                    label66.Invoke(new LogToForm(setParam), new object[] { "3" + charger.state });
+
+                    evcarStatusNT("Preparing");
+                    Delay(1000);
+
+                    evcarTariff();
+                    Delay(1000);
+
+                    evcarCost();
+                    Delay(1000);
+
                     evcarStart();
                     break;
                 case "RemoteStopTransaction":
-                    Console.WriteLine("Receive RemoteStartTransaction !!!");
+                    Console.WriteLine("Receive RemoteStopTransaction !!!");
 
                     transid = (obj["transactionId"] ?? " ").ToString();
                     textBox9.Invoke(new LogToForm(setParam), new object[] { "2" + transid });
@@ -12634,6 +12637,7 @@ namespace WindowsFormsApp2
                     }
                     else if(reqmsg == "MeterValues")
                     {
+                        charger.watt = 0;
                         evcarMeter();
                     }
                     break;
@@ -12798,31 +12802,15 @@ namespace WindowsFormsApp2
                     var interval = jobj["interval"] ?? " ";
                     var status = jobj["status"] ?? " ";
 
-                    if (interval.ToString() != " ")
-                        charger.interval = int.Parse(interval.ToString())*100;
-                    else
-                        charger.interval = 60000;       // 10분(600초)
-
-                    if(charger.state == "boot")
+                    if(charger.state == "autoboot")
                     {
                         if (status.ToString() == "Accepted")
-                        {
                             evcarStatusNT("Available");
-                            charger.state = "heart";
-                            label66.Text = charger.state;
-                            charger.nextstate = "heart";
-                        }
                         else if (status.ToString() == "Reserved")
-                        {
                             evcarStatusNT("Reserved");
-                            charger.state = "heart";
-                            label66.Text = charger.state;
-                            charger.nextstate = "heart";
-                        }
-                        else
-                            charger.nextstate = "boot";
 
-                        timer3.Interval = charger.interval;
+                        charger.nextstate = "heart";
+                        timer3.Interval = 10000;
                         timer3.Start();
                     }
                 }
@@ -13072,53 +13060,53 @@ namespace WindowsFormsApp2
             var json = new JObject();
             json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("idTag", textBox15.Text);
-            int watt = int.Parse(tbWatt.Text);
-            json.Add("meterStart", watt);
+            json.Add("meterStart", 100);
             json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             if (charger.state == "remotestart")
                 json.Add("reservationId", textBox9.Text);
 
             string retStr = SendDataToEVSP(startTruri, json.ToString());
-            if (charger.state == "start" || charger.state == "remotestart")
+            if (retStr != string.Empty)
             {
-                if (retStr != string.Empty)
-                {
-                    JObject jobj = JObject.Parse(retStr);
+                JObject jobj = JObject.Parse(retStr);
 
-                    var idTagInfo = jobj["idTagInfo"] ?? " ";
-                    if (idTagInfo.ToString() != " ")
+                var idTagInfo = jobj["idTagInfo"] ?? " ";
+                if (idTagInfo.ToString() != " ")
+                {
+                    var status = jobj["idTagInfo"]["status"] ?? " ";
+                    var trid = jobj["transactionId"] ?? " ";
+                    Console.WriteLine("status response : " + status.ToString());
+
+                    switch (status.ToString())
                     {
-                        var status = jobj["idTagInfo"]["status"] ?? " ";
-                        var trid = jobj["transactionId"] ?? " ";
-                        switch (status.ToString())
-                        {
-                            case "Accepted":        // 충전 가능
-                                charger.state = "start";
-                                label66.Text = charger.state;
-                                textBox9.Text = trid.ToString();
+                        case "Accepted":        // 충전 가능
+                            textBox9.Text = trid.ToString();
+                            if (charger.state == "remotestart")
+                            {
                                 evcarStatusNT("Charging");
 
                                 evcarMeter();
 
                                 charger.nextstate = "meter";
-                                timer3.Interval = 30000;
+                                timer3.Interval = 5000;
                                 timer3.Start();
-                                break;
-                            //case "Blocked":         // 충전불가 (예약전용 충전기의 예약자 불일치)
-                            //    break;
-                            //case "Expired":         // 회원카드의 유효기간 만료
-                            //    break;
-                            //case "Invalid":         // 회원카드 미등록
-                            //    break;
-                            //case "ConcurrentTx":    // 충전 진행중인 회원카드 (동시 충전 불가)
-                            //    break;
-                            default:
-                                Console.WriteLine("status response : " + status.ToString());
-                                break;
-                        }
+                            }
+                            else
+                            {
+                                charger.state = "start";
+                            }
+                            break;
+                        //case "Blocked":         // 충전불가 (예약전용 충전기의 예약자 불일치)
+                        //    break;
+                        //case "Expired":         // 회원카드의 유효기간 만료
+                        //    break;
+                        //case "Invalid":         // 회원카드 미등록
+                        //    break;
+                        //case "ConcurrentTx":    // 충전 진행중인 회원카드 (동시 충전 불가)
+                        //    break;
+                        default:
+                            break;
                     }
-
-
                 }
             }
 
@@ -13165,25 +13153,7 @@ namespace WindowsFormsApp2
 
         private void btnStopST_Click(object sender, EventArgs e)
         {
-            var json = new JObject();
-            json.Add("connectorId", int.Parse(textBox17.Text));
-            json.Add("errorCode", "NoError");
-
-            var json2 = new JObject();
-            json2.Add("reason", "None");
-            json2.Add("cpv", 100);
-            json2.Add("rv", 11);
-            json.Add("info", json2);
-
-            json.Add("status", "Finishing");
-
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
-            json.Add("vendorErrorCode", "");
-            json.Add("vendorId", "LGU");
-
-            string retStr = SendDataToEVSP(statusTruri, json.ToString());
-            //if (retStr != string.Empty)
-            //    LogWrite(retStr);
+            evcarStatusNT("Finishing");
         }
 
         private void button43_Click_1(object sender, EventArgs e)
@@ -13193,38 +13163,48 @@ namespace WindowsFormsApp2
 
         private void btnMeter_Click(object sender, EventArgs e)
         {
+            charger.watt = 0;
             evcarMeter();
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            if (charger.state == "remotestart")
+            {
+                evcarStatusNT("SuspenedEVSE");
+                Delay(1000);
+
+                evcarStatusNT("Finishing");
+                Delay(1000);
+            }
+
             evcarStop();
+
+            if (charger.state == "remotestart")
+            {
+                Delay(1000);
+                evcarStatusNT("Available");
+            }
+
+            button144.Text = "자동 시작 (일반)";
+            charger.state = "idle";
+            label66.Text = charger.state;
+            charger.nextstate = "idle";
+            timer3.Stop();
         }
 
         private void evcarStop()
         {
             var json = new JObject();
             json.Add("idTag", textBox15.Text);
-            int watt = int.Parse(tbWatt.Text);
-            json.Add("meterStop", watt);
+            json.Add("meterStop", charger.watt+100);
             json.Add("reason", "Finished");
             json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("transactionId", Convert.ToUInt64(textBox9.Text));
 
             string retStr = SendDataToEVSP(stopTrurl, json.ToString());
-            if (charger.state == "start")
-            {
-                //if (retStr != string.Empty)
-                //    LogWrite(retStr);
-
-                evcarStatusNT("Available");
-                charger.state = "heart";
-                label66.Text = charger.state;
-                charger.nextstate = "heart";
-
-                timer3.Interval = charger.interval * 100;
-                timer3.Start();
-            }
+            //if (retStr != string.Empty)
+            //    LogWrite(retStr);
         }
 
         private void button52_Click_1(object sender, EventArgs e)
@@ -13884,7 +13864,7 @@ namespace WindowsFormsApp2
             if (button144.Text == "자동 시작 (일반)")
             {
                 button144.Text = "자동 중지 (일반)";
-                charger.state = "boot";
+                charger.state = "autoboot";
                 label66.Text = charger.state;
                 evcarBoot("PowerUp");
             }
@@ -13904,9 +13884,6 @@ namespace WindowsFormsApp2
 
             switch (charger.nextstate)
             {
-                case "boot":
-                    evcarBoot("PowerUp");
-                    break;
                 case "heart":
                     evcarHeart();
                     timer3.Start();
@@ -13950,10 +13927,8 @@ namespace WindowsFormsApp2
             json3.RemoveAll();
             json3.Add("measurand", "Energy.Active.Import.Register");
             json3.Add("unit", "Wh");
-            int watt = int.Parse(tbWatt.Text);
-            json3.Add("value", watt);
-            watt += 5;
-            tbWatt.Text = watt.ToString();
+            json3.Add("value", charger.watt);
+            charger.watt += 5;
             jarray2.Add(json3);
 
             json3.RemoveAll();
@@ -14120,7 +14095,6 @@ namespace WindowsFormsApp2
     {
         public string state { get; set; }            // 충전기 동작 상태
         public string nextstate { get; set; }       // 충전기 다음 상태
-        public int interval { get; set; }          // heartbeat 간격 (ms)
 
         public string imsi { get; set; }            // 디바이스 전화번호
         public string iccid { get; set; }           // 디바이스 ICCID
@@ -14132,6 +14106,7 @@ namespace WindowsFormsApp2
         public string snr { get; set; }
         public string txdata { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
         public string tab { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
+        public int watt { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
     }
 
     public class Device
