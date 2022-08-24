@@ -484,8 +484,10 @@ namespace WindowsFormsApp2
         HttpWebResponse wRes;
 
         string brkUrl = "https://testbrk.onem2m.uplus.co.kr:443"; // BRK(oneM2M 개발기)       
+        //string brkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
         string brkUrlL = "https://testbrks.onem2m.uplus.co.kr:8443"; // BRK(LwM2M 개발기)       
         string mefUrl = "https://testmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
+        //string mefUrl = "https://devmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
         string logUrl = "http://106.103.228.184/api/v1"; // oneM2M log(개발기)
 
         DateTime tcStartTime = DateTime.Now.AddHours(-1);
@@ -504,6 +506,7 @@ namespace WindowsFormsApp2
 
         // 충전기 서버
         string cshosturl = "http://devevspcharger.uplus.co.kr";
+        //string cshosturl = "http://stgevspcharger.uplus.co.kr";
         string authuri = "/api/v1/OCPP/authorize/";
         string bootNturi = "/api/v1/OCPP/bootNotification/";
         string dataTruri = "/api/v1/OCPP/dataTransfer/";
@@ -950,6 +953,7 @@ namespace WindowsFormsApp2
             dateTimePicker1.Value = tcStartTime;
 
             charger.state = "idle";
+            charger.entityId = string.Empty;
         }
 
         private void doOpenComPort()
@@ -13239,7 +13243,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_appstart";
 
@@ -13264,8 +13268,7 @@ namespace WindowsFormsApp2
         private void SendDataToEVC()
         {
             ReqHeader header = new ReqHeader();
-            setDeviceEntityID();
-            header.Url = brkUrl + "/" + dev.entityId + "/" + textBox14.Text;
+            header.Url = brkUrl + "/" + charger.entityId + "/" + textBox14.Text;
 
             header.Method = "POST";
             header.X_M2M_Origin = svr.entityId;
@@ -13472,7 +13475,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_appstop";
 
@@ -13497,7 +13500,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_appstatus";
 
@@ -13523,7 +13526,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     textBox14.Text = "11410000514";
                     if (isRunning == true)
@@ -13560,7 +13563,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_admreset";
 
@@ -13585,7 +13588,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_admdiag";
 
@@ -13610,7 +13613,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_admunlock";
 
@@ -13635,7 +13638,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_admfota";
 
@@ -13703,7 +13706,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     textBox14.Text = "11410000509";
                     if (isRunning == true)
@@ -13753,7 +13756,7 @@ namespace WindowsFormsApp2
         {
             if (svr.enrmtKeyId != string.Empty)
             {
-                if (lbDevEntityId.Text != ".")
+                if (charger.entityId != string.Empty)
                 {
                     charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_admstop";
 
@@ -14106,7 +14109,7 @@ namespace WindowsFormsApp2
         public string snr { get; set; }
         public string txdata { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
         public string tab { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
-        public int watt { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
+        public int watt { get; set; }
     }
 
     public class Device
