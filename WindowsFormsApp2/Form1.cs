@@ -483,11 +483,7 @@ namespace WindowsFormsApp2
         HttpWebRequest wReq;
         HttpWebResponse wRes;
 
-        string brkUrl = "https://testbrk.onem2m.uplus.co.kr:443"; // BRK(oneM2M 개발기)       
-        //string brkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
         string brkUrlL = "https://testbrks.onem2m.uplus.co.kr:8443"; // BRK(LwM2M 개발기)       
-        string mefUrl = "https://testmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
-        //string mefUrl = "https://devmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
         string logUrl = "http://106.103.228.184/api/v1"; // oneM2M log(개발기)
 
         DateTime tcStartTime = DateTime.Now.AddHours(-1);
@@ -504,9 +500,16 @@ namespace WindowsFormsApp2
         private bool isRunning = false;
         private int tcpindex = 0;
 
-        // 충전기 서버
-        string cshosturl = "http://devevspcharger.uplus.co.kr";
-        //string cshosturl = "http://stgevspcharger.uplus.co.kr";
+        // 개발서버
+        string brkUrl = "https://testbrk.onem2m.uplus.co.kr:443"; // BRK(oneM2M 개발기)       
+        string mefUrl = "https://testmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
+        string cshosturl = "http://devevspcharger.uplus.co.kr";     // EVSP(개발기)
+
+        // 검수서버
+//        string brkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
+//        string mefUrl = "https://devmef.onem2m.uplus.co.kr:443";  // MEF(검수기)
+//        string cshosturl = "http://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
+        
         string authuri = "/api/v1/OCPP/authorize/";
         string bootNturi = "/api/v1/OCPP/bootNotification/";
         string dataTruri = "/api/v1/OCPP/dataTransfer/";
@@ -13100,19 +13103,28 @@ namespace WindowsFormsApp2
                                 charger.state = "start";
                             }
                             break;
-                        //case "Blocked":         // 충전불가 (예약전용 충전기의 예약자 불일치)
-                        //    break;
-                        //case "Expired":         // 회원카드의 유효기간 만료
-                        //    break;
-                        //case "Invalid":         // 회원카드 미등록
-                        //    break;
-                        //case "ConcurrentTx":    // 충전 진행중인 회원카드 (동시 충전 불가)
-                        //    break;
+                        case "Blocked":         // 충전불가 (예약전용 충전기의 예약자 불일치)
+                            charger.state = "idle";
+                            break;
+                        case "Expired":         // 회원카드의 유효기간 만료
+                            charger.state = "idle";
+                            break;
+                        case "Invalid":         // 회원카드 미등록
+                            charger.state = "idle";
+                            break;
+                        case "ConcurrentTx":    // 충전 진행중인 회원카드 (동시 충전 불가)
+                            charger.state = "idle";
+                            break;
                         default:
+                            charger.state = "idle";
                             break;
                     }
                 }
+                else
+                    charger.state = "idle";
             }
+            else
+                charger.state = "idle";
 
         }
 
