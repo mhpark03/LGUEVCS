@@ -8736,7 +8736,8 @@ namespace WindowsFormsApp2
 
                 if (dev.entityId != entityid)
                 {
-                    dev.entityId = entityid;
+                    charger.entityId = dev.entityId = entityid;
+                    
                     SetText(lbDevEntityId, dev.entityId);
                     SetText(tbDevID, dev.entityId);
                     logPrintInTextBox("Device EntityID가 " + dev.entityId + "수정되었습니다.", "");
@@ -12786,18 +12787,18 @@ namespace WindowsFormsApp2
         private void evcarBoot(string reason)
         {
             var json = new JObject();
-            json.Add("reason", reason);
+            json.Add("Reason", reason);
             json.Add("chargePointSerialNumber", textBox7.Text);
             json.Add("chargePointVendor", "LGU+");
             json.Add("chargePointModel", "UMT100");
             json.Add("firmwareVersion", tBoxDeviceVer.Text);
             json.Add("lccid", charger.iccid);
-            json.Add("imsi", charger.imsi);
+            json.Add("Imsi", charger.imsi);
             json.Add("meterSerialNumber", textBox10.Text);
             json.Add("rssi", charger.rssi);
             json.Add("rsrp", charger.rsrp);
             json.Add("snr", charger.snr);
-            json.Add("entityId", charger.entityId);
+            json.Add("EntityId", charger.entityId);
 
             string retStr = SendDataToEVSP(bootNturi, json.ToString());
             if (retStr != string.Empty)

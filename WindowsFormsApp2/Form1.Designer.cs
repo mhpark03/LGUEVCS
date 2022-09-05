@@ -852,7 +852,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(32, 21);
             this.textBox12.TabIndex = 84;
-            this.textBox12.Text = "1A";
+            this.textBox12.Text = "0A";
             // 
             // label64
             // 
@@ -1094,7 +1094,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(167, 21);
             this.textBox7.TabIndex = 102;
-            this.textBox7.Text = "123456";
+            this.textBox7.Text = "SNO136763";
             // 
             // btnStopST
             // 
@@ -1202,7 +1202,7 @@
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(206, 21);
             this.textBox15.TabIndex = 88;
-            this.textBox15.Text = "1010010183808930";
+            this.textBox15.Text = "1010010193457702";
             // 
             // button39
             // 
