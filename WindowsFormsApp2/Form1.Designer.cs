@@ -852,7 +852,7 @@
             this.textBox12.Name = "textBox12";
             this.textBox12.Size = new System.Drawing.Size(32, 21);
             this.textBox12.TabIndex = 84;
-            this.textBox12.Text = "0A";
+            this.textBox12.Text = "1A";
             // 
             // label64
             // 
@@ -924,7 +924,7 @@
             this.textBox14.Name = "textBox14";
             this.textBox14.Size = new System.Drawing.Size(103, 21);
             this.textBox14.TabIndex = 18;
-            this.textBox14.Text = "11410000501";
+            this.textBox14.Text = "11500151301";
             // 
             // label63
             // 
@@ -992,23 +992,32 @@
             // 
             this.comboBox6.FormattingEnabled = true;
             this.comboBox6.Items.AddRange(new object[] {
-            "oneM2MFailure",
+            "NWERR",
+            "ONEERR",
+            "ERROR",
             "ConnectorLockFailure",
-            "EVCommunicationError",
             "GroundFailure",
-            "HighTemperature",
-            "InternalError",
-            "LocalListConflict",
-            "OtherError",
             "OverCurrentFailure",
             "OverVoltage",
             "PowerMeterFailure",
             "PowerSwitchFailure",
             "ReaderFailure",
-            "ResetFailure",
             "UnderVoltage",
+            "oneM2MFailure",
+            "ResetFailure",
+            "cpadfault",
+            "emswon",
+            "HighTemperature",
             "WeakSignal",
-            "modemReset"});
+            "LocalListConflict",
+            "InternalError",
+            "modemReset",
+            "dooropenfailure",
+            "fqfault",
+            "mconfalut",
+            "EVCommunicationError",
+            "OtherError",
+            "NoError"});
             this.comboBox6.Location = new System.Drawing.Point(235, 344);
             this.comboBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox6.Name = "comboBox6";
@@ -1094,7 +1103,7 @@
             this.textBox7.Name = "textBox7";
             this.textBox7.Size = new System.Drawing.Size(167, 21);
             this.textBox7.TabIndex = 102;
-            this.textBox7.Text = "SNO136763";
+            this.textBox7.Text = "EVSCA070005";
             // 
             // btnStopST
             // 
