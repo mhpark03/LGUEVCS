@@ -579,6 +579,8 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.label57 = new System.Windows.Forms.Label();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -757,6 +759,8 @@
             // 
             // tabEVDevice
             // 
+            this.tabEVDevice.Controls.Add(this.comboBox7);
+            this.tabEVDevice.Controls.Add(this.label57);
             this.tabEVDevice.Controls.Add(this.button145);
             this.tabEVDevice.Controls.Add(this.label66);
             this.tabEVDevice.Controls.Add(this.button144);
@@ -772,7 +776,7 @@
             // 
             // button145
             // 
-            this.button145.Location = new System.Drawing.Point(185, 37);
+            this.button145.Location = new System.Drawing.Point(185, 54);
             this.button145.Name = "button145";
             this.button145.Size = new System.Drawing.Size(126, 23);
             this.button145.TabIndex = 115;
@@ -781,7 +785,7 @@
             // 
             // label66
             // 
-            this.label66.Location = new System.Drawing.Point(336, 37);
+            this.label66.Location = new System.Drawing.Point(336, 54);
             this.label66.Name = "label66";
             this.label66.Size = new System.Drawing.Size(70, 22);
             this.label66.TabIndex = 114;
@@ -790,7 +794,7 @@
             // 
             // button144
             // 
-            this.button144.Location = new System.Drawing.Point(40, 37);
+            this.button144.Location = new System.Drawing.Point(40, 54);
             this.button144.Name = "button144";
             this.button144.Size = new System.Drawing.Size(126, 23);
             this.button144.TabIndex = 114;
@@ -1018,12 +1022,12 @@
             "EVCommunicationError",
             "OtherError",
             "NoError"});
-            this.comboBox6.Location = new System.Drawing.Point(235, 344);
+            this.comboBox6.Location = new System.Drawing.Point(240, 345);
             this.comboBox6.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox6.Name = "comboBox6";
             this.comboBox6.Size = new System.Drawing.Size(126, 20);
             this.comboBox6.TabIndex = 111;
-            this.comboBox6.Text = "oneM2MFailure";
+            this.comboBox6.Text = "NWERR";
             // 
             // label62
             // 
@@ -6581,6 +6585,28 @@
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // label57
+            // 
+            this.label57.Location = new System.Drawing.Point(50, 20);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(70, 22);
+            this.label57.TabIndex = 116;
+            this.label57.Text = "서버";
+            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Items.AddRange(new object[] {
+            "개발기",
+            "검수기"});
+            this.comboBox7.Location = new System.Drawing.Point(94, 22);
+            this.comboBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(72, 20);
+            this.comboBox7.TabIndex = 114;
+            this.comboBox7.Text = "개발기";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -7233,6 +7259,8 @@
         private System.Windows.Forms.Button button147;
         private System.Windows.Forms.Label label67;
         private System.Windows.Forms.TextBox textBox17;
+        private System.Windows.Forms.ComboBox comboBox7;
+        private System.Windows.Forms.Label label57;
     }
 }
 

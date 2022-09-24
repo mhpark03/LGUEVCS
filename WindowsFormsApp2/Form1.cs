@@ -13691,8 +13691,95 @@ namespace WindowsFormsApp2
             json.Add("data", json2);
 
             string retStr = SendDataToEVSP(dataTruri, json.ToString());
-            //if (retStr != string.Empty)
-            //    LogWrite(retStr);
+            if (retStr != string.Empty)
+            {
+                try
+                {
+                    JObject jobj = JObject.Parse(retStr); //json 객체로
+                    var status = jobj["status"] ?? " ";
+                    var data = jobj["data"] ?? " ";
+                    if (status.ToString() == "Accepted")
+                    {
+                        jobj = JObject.Parse(data.ToString()); //json 객체로
+                        status = jobj["status"] ?? " ";
+                        var location = jobj["location"] ?? " ";
+                        if (status.ToString() == "Accepted")
+                        {
+                            try
+                            {
+                                wReq = (HttpWebRequest)WebRequest.Create(location.ToString());
+                                wReq.Method = "PUT";
+                                string txdata = "Hello EVSP";
+
+                                Log("T" + "  " + wReq.Method + " " + wReq.RequestUri);
+                                Log("T" + "  " + txdata);
+
+                                Console.WriteLine(wReq.Method + " " + wReq.RequestUri + " HTTP/1.1");
+                                Console.WriteLine(txdata);
+                                Console.WriteLine("");
+
+                                byte[] byteArray = Encoding.UTF8.GetBytes(txdata);
+                                Stream dataStream = wReq.GetRequestStream();
+                                dataStream.Write(byteArray, 0, byteArray.Length);
+                                dataStream.Close();
+
+                                wReq.Timeout = 3000;          // 서버 응답을 3초동안 기다림
+                                using (wRes = (HttpWebResponse)wReq.GetResponse())
+                                {
+                                    Log("R" + "  " + (int)wRes.StatusCode + " " + wRes.StatusCode.ToString());
+                                    Console.WriteLine("HTTP/1.1 " + (int)wRes.StatusCode + " " + wRes.StatusCode.ToString());
+                                    Console.WriteLine("");
+                                    for (int i = 0; i < wRes.Headers.Count; ++i)
+                                        Console.WriteLine("[" + wRes.Headers.Keys[i] + "] " + wRes.Headers[i]);
+                                    Console.WriteLine("");
+
+                                    Stream respPostStream = wRes.GetResponseStream();
+                                    StreamReader readerPost = new StreamReader(respPostStream, Encoding.GetEncoding("UTF-8"), true);
+                                    string resResult = readerPost.ReadToEnd();
+                                    Log("R" + "  " + resResult);
+                                    if (resResult.StartsWith("{"))
+                                    {
+                                        string beautifiedJson = JValue.Parse(resResult).ToString((Newtonsoft.Json.Formatting)Formatting.Indented);
+                                        Console.WriteLine(beautifiedJson);
+                                    }
+                                    else
+                                        Console.WriteLine(resResult);
+                                    Console.WriteLine("");
+                                }
+                            }
+                            catch (WebException ex)
+                            {
+                                if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null)
+                                {
+                                    var resp = (HttpWebResponse)ex.Response;
+                                    LogWrite((int)resp.StatusCode + " " + resp.StatusCode.ToString(), "R");
+                                    Console.WriteLine("HTTP/1.1 " + (int)resp.StatusCode + " " + resp.StatusCode.ToString());
+                                    Console.WriteLine("");
+                                    for (int i = 0; i < resp.Headers.Count; ++i)
+                                        Console.WriteLine(" " + resp.Headers.Keys[i] + ": " + resp.Headers[i]);
+                                    Console.WriteLine("");
+
+                                    Stream respPostStream = resp.GetResponseStream();
+                                    StreamReader readerPost = new StreamReader(respPostStream, Encoding.GetEncoding("UTF-8"), true);
+                                    string resError = readerPost.ReadToEnd();
+                                    Console.WriteLine(resError);
+                                    Console.WriteLine("");
+                                    Console.WriteLine("[" + (int)resp.StatusCode + "] " + resp.StatusCode.ToString());
+                                }
+                                else
+                                {
+                                    Console.WriteLine(ex.ToString());
+                                }
+                            }
+                        }
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                }
+            }
         }
 
         private void button134_Click(object sender, EventArgs e)
