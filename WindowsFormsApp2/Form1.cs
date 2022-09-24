@@ -13752,7 +13752,7 @@ namespace WindowsFormsApp2
                                 if (ex.Status == WebExceptionStatus.ProtocolError && ex.Response != null)
                                 {
                                     var resp = (HttpWebResponse)ex.Response;
-                                    LogWrite((int)resp.StatusCode + " " + resp.StatusCode.ToString(), "R");
+                                    Log("R" + "  " + (int)resp.StatusCode + " " + resp.StatusCode.ToString());
                                     Console.WriteLine("HTTP/1.1 " + (int)resp.StatusCode + " " + resp.StatusCode.ToString());
                                     Console.WriteLine("");
                                     for (int i = 0; i < resp.Headers.Count; ++i)
