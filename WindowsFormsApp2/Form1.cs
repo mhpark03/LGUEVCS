@@ -506,9 +506,9 @@ namespace WindowsFormsApp2
         string cshosturl = "http://devevspcharger.uplus.co.kr";     // EVSP(개발기)
 
         // 검수서버
-//        string brkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
-//        string mefUrl = "https://devmef.onem2m.uplus.co.kr:443";  // MEF(검수기)
-//        string cshosturl = "http://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
+        string stgbrkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
+        string stgmefUrl = "https://devmef.onem2m.uplus.co.kr:443";  // MEF(검수기)
+        string stgcshosturl = "http://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
         
         string authuri = "/api/v1/OCPP/authorize/";
         string bootNturi = "/api/v1/OCPP/bootNotification/";
@@ -8323,7 +8323,10 @@ namespace WindowsFormsApp2
         private void RequestMEF()
         {
             ReqHeader header = new ReqHeader();
-            header.Url = mefUrl + "/mef/server";
+            if (comboBox7.Text == "검수기")
+                header.Url = stgmefUrl + "/mef/server";
+            else
+                header.Url = mefUrl + "/mef/server";
             header.Method = "POST";
             header.ContentType = "application/xml";
             header.X_M2M_RI = string.Empty;
@@ -8859,9 +8862,19 @@ namespace WindowsFormsApp2
             ReqHeader header = new ReqHeader();
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 1)
-                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
+            {
+                if (comboBox7.Text == "검수기")
+                    header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
+                else
+                    header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
+            }
             else
-                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
+            {
+                if (comboBox7.Text == "검수기")
+                    header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
+                else
+                    header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
+            }
             header.Method = "GET";
             header.X_M2M_Origin = svr.entityId;
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "device_CSR_retrive";
@@ -8894,11 +8907,26 @@ namespace WindowsFormsApp2
             ReqHeader header = new ReqHeader();
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 0)
-                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
+            {
+                if (comboBox7.Text == "검수기")
+                    header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
+                else
+                    header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
+            }
             else if (comboBox2.SelectedIndex == 1)
-                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
+            {
+                if (comboBox7.Text == "검수기")
+                    header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
+                else
+                    header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
+            }
             else
-                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
+            {
+                if (comboBox7.Text == "검수기")
+                    header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
+                else
+                    header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
+            }
             header.Method = "GET";
             header.X_M2M_Origin = svr.entityId;
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "device_CSR_retrive";
@@ -9232,7 +9260,10 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEGet()
         {
             ReqHeader header = new ReqHeader();
-            header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            else
+                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             header.Method = "GET";
             header.Accept = "application/vnd.onem2m-res+xml";
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "RemoteCSE_Retrieve";
@@ -9257,7 +9288,10 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSECreate()
         {
             ReqHeader header = new ReqHeader();
-            header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1";
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1";
+            else
+                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1";
             header.Method = "POST";
             header.Accept = "application/vnd.onem2m-res+xml";
             header.ContentType = "application/vnd.onem2m-res+xml;ty=16";
@@ -9293,7 +9327,10 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEDEL()
         {
             ReqHeader header = new ReqHeader();
-            header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            else
+                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             header.Method = "DELETE";
             header.Accept = "application/vnd.onem2m-res+xml";
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "RemoteCSE_Delete";
@@ -9321,7 +9358,10 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847/cnt-TEMP/la";
-            header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
+            else
+                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
             header.Method = "GET";
             header.X_M2M_Origin = svr.entityId;
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "data_retrive";
@@ -9391,7 +9431,10 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
+            else
+                header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
             header.Method = "POST";
             header.X_M2M_Origin = svr.entityId;
             header.X_M2M_RI = DateTime.Now.ToString("yyyyMMddHHmmss") + "data_send";
@@ -9602,7 +9645,10 @@ namespace WindowsFormsApp2
 
             ReqHeader header = new ReqHeader();
             setDeviceEntityID();
-            header.Url = brkUrl + "/" + dev.entityId + "/TEST";
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
+            else
+                header.Url = brkUrl + "/" + dev.entityId + "/TEST";
 
             header.Method = "GET";
             header.X_M2M_Origin = svr.entityId;
@@ -9698,8 +9744,11 @@ namespace WindowsFormsApp2
         private void SendDataToOneM2M()
         {
             ReqHeader header = new ReqHeader();
-            setDeviceEntityID(); 
-            header.Url = brkUrl + "/" + dev.entityId + "/TEST";
+            setDeviceEntityID();
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
+            else
+                header.Url = brkUrl + "/" + dev.entityId + "/TEST";
             //header.Url = brkUrl + "/" + dev.entityId + "/" + textBox14.Text;
 
             header.Method = "POST";
@@ -12843,7 +12892,7 @@ namespace WindowsFormsApp2
 
             json.Add("status", status);
 
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("vendorErrorCode", "");
             json.Add("vendorId", "LGU");
 
@@ -12856,7 +12905,10 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            header.Url = cshosturl + uri + textBox14.Text;
+            if (comboBox7.Text == "검수기")
+                header.Url = cshosturl + uri + textBox14.Text;
+            else
+                header.Url = stgcshosturl + uri + textBox14.Text;
             header.Method = "POST";
             header.X_EVC_BOX = textBox14.Text+ textBox12.Text;
             header.X_EVC_RI = charger.logid;
@@ -13038,7 +13090,7 @@ namespace WindowsFormsApp2
             json2.Add("connectorId", int.Parse(textBox17.Text));
             json2.Add("idTag", textBox15.Text);
             json2.Add("transactionId", Convert.ToUInt64(textBox9.Text));
-            json2.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
 
             string retStr = SendDataToEVSP(dataTruri, json.ToString());
@@ -13055,7 +13107,7 @@ namespace WindowsFormsApp2
             var json2 = new JObject();
             json2.Add("connectorId", int.Parse(textBox17.Text));
             json2.Add("idTag", textBox15.Text);
-            json2.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
 
             string retStr = SendDataToEVSP(dataTruri, json.ToString());
@@ -13069,7 +13121,7 @@ namespace WindowsFormsApp2
             json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("idTag", textBox15.Text);
             json.Add("meterStart", 100);
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             if (charger.state == "remotestart")
                 json.Add("reservationId", textBox9.Text);
 
@@ -13159,7 +13211,7 @@ namespace WindowsFormsApp2
 
             json.Add("status", "Charging");
 
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("vendorErrorCode", "");
             json.Add("vendorId", "LGU");
 
@@ -13216,7 +13268,7 @@ namespace WindowsFormsApp2
             json.Add("idTag", textBox15.Text);
             json.Add("meterStop", charger.watt+100);
             json.Add("reason", "Finished");
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("transactionId", Convert.ToUInt64(textBox9.Text));
 
             string retStr = SendDataToEVSP(stopTrurl, json.ToString());
@@ -13243,7 +13295,7 @@ namespace WindowsFormsApp2
 
             json.Add("status", "Fault");
 
-            json.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("vendorErrorCode", "");
             json.Add("vendorId", "LGU");
 
@@ -13281,7 +13333,10 @@ namespace WindowsFormsApp2
         private void SendDataToEVC()
         {
             ReqHeader header = new ReqHeader();
-            header.Url = brkUrl + "/" + charger.entityId + "/" + textBox14.Text;
+            if (comboBox7.Text == "검수기")
+                header.Url = stgbrkUrl + "/" + charger.entityId + "/" + textBox14.Text;
+            else
+                header.Url = brkUrl + "/" + charger.entityId + "/" + textBox14.Text;
 
             header.Method = "POST";
             header.X_M2M_Origin = svr.entityId;
@@ -13658,7 +13713,7 @@ namespace WindowsFormsApp2
                     var json = new JObject();
                     json.Add("command", "UpdateFirmware");
                     json.Add("location", textBox11.Text);
-                    json.Add("retrieveDate", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+                    json.Add("retrieveDate", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
                     //charger.txdata = json.ToString();
@@ -14010,7 +14065,7 @@ namespace WindowsFormsApp2
 
             var jarray = new JArray();
             var json2 = new JObject();
-            json2.Add("timestamp", DateTime.Now.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
 
             var jarray2 = new JArray();
             var json3 = new JObject();
