@@ -38,6 +38,8 @@
             this.cbDTR = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabEVDevice = new System.Windows.Forms.TabPage();
+            this.comboBox7 = new System.Windows.Forms.ComboBox();
+            this.label57 = new System.Windows.Forms.Label();
             this.button145 = new System.Windows.Forms.Button();
             this.label66 = new System.Windows.Forms.Label();
             this.button144 = new System.Windows.Forms.Button();
@@ -579,8 +581,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.label57 = new System.Windows.Forms.Label();
-            this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -773,6 +773,29 @@
             this.tabEVDevice.TabIndex = 11;
             this.tabEVDevice.Text = "충전기단말";
             this.tabEVDevice.UseVisualStyleBackColor = true;
+            // 
+            // comboBox7
+            // 
+            this.comboBox7.FormattingEnabled = true;
+            this.comboBox7.Items.AddRange(new object[] {
+            "개발기",
+            "검수기"});
+            this.comboBox7.Location = new System.Drawing.Point(94, 22);
+            this.comboBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox7.Name = "comboBox7";
+            this.comboBox7.Size = new System.Drawing.Size(72, 20);
+            this.comboBox7.TabIndex = 114;
+            this.comboBox7.Text = "개발기";
+            this.comboBox7.SelectedIndexChanged += new System.EventHandler(this.comboBox7_SelectedIndexChanged);
+            // 
+            // label57
+            // 
+            this.label57.Location = new System.Drawing.Point(50, 20);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(70, 22);
+            this.label57.TabIndex = 116;
+            this.label57.Text = "서버";
+            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // button145
             // 
@@ -1215,7 +1238,7 @@
             this.textBox15.Name = "textBox15";
             this.textBox15.Size = new System.Drawing.Size(206, 21);
             this.textBox15.TabIndex = 88;
-            this.textBox15.Text = "1010010193457702";
+            this.textBox15.Text = "1010001482568043";
             // 
             // button39
             // 
@@ -6584,28 +6607,6 @@
             // timer3
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // label57
-            // 
-            this.label57.Location = new System.Drawing.Point(50, 20);
-            this.label57.Name = "label57";
-            this.label57.Size = new System.Drawing.Size(70, 22);
-            this.label57.TabIndex = 116;
-            this.label57.Text = "서버";
-            this.label57.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // comboBox7
-            // 
-            this.comboBox7.FormattingEnabled = true;
-            this.comboBox7.Items.AddRange(new object[] {
-            "개발기",
-            "검수기"});
-            this.comboBox7.Location = new System.Drawing.Point(94, 22);
-            this.comboBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox7.Name = "comboBox7";
-            this.comboBox7.Size = new System.Drawing.Size(72, 20);
-            this.comboBox7.TabIndex = 114;
-            this.comboBox7.Text = "개발기";
             // 
             // Form1
             // 

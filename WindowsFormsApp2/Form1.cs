@@ -518,7 +518,7 @@ namespace WindowsFormsApp2
         string stopTrurl = "/api/v1/OCPP/stopTransaction/";
         string meterVuri = "/api/v1/OCPP/meterValues/";
         string fotaurl = "/api/v1/OCPP/firmwareStatusNotification/";
-        string diaguri = "/api/v1/OCPP/diagnosticsStatusNotication/";
+        string diaguri = "/api/v1/OCPP/diagnosticsStatusNotification/";
 
         Charger charger = new Charger();
         string evstate = string.Empty;
@@ -957,6 +957,7 @@ namespace WindowsFormsApp2
 
             charger.state = "idle";
             charger.entityId = string.Empty;
+            charger.server = "dev";
         }
 
         private void doOpenComPort()
@@ -8323,7 +8324,7 @@ namespace WindowsFormsApp2
         private void RequestMEF()
         {
             ReqHeader header = new ReqHeader();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgmefUrl + "/mef/server";
             else
                 header.Url = mefUrl + "/mef/server";
@@ -8863,14 +8864,14 @@ namespace WindowsFormsApp2
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 1)
             {
-                if (comboBox7.Text == "검수기")
+                if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
             }
             else
             {
-                if (comboBox7.Text == "검수기")
+                if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
@@ -8908,21 +8909,21 @@ namespace WindowsFormsApp2
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 0)
             {
-                if (comboBox7.Text == "검수기")
+                if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
             }
             else if (comboBox2.SelectedIndex == 1)
             {
-                if (comboBox7.Text == "검수기")
+                if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
             }
             else
             {
-                if (comboBox7.Text == "검수기")
+                if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
@@ -9260,7 +9261,7 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEGet()
         {
             ReqHeader header = new ReqHeader();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
@@ -9288,7 +9289,7 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSECreate()
         {
             ReqHeader header = new ReqHeader();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1";
@@ -9327,7 +9328,7 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEDEL()
         {
             ReqHeader header = new ReqHeader();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
@@ -9358,7 +9359,7 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847/cnt-TEMP/la";
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
@@ -9431,7 +9432,7 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
@@ -9645,7 +9646,7 @@ namespace WindowsFormsApp2
 
             ReqHeader header = new ReqHeader();
             setDeviceEntityID();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
             else
                 header.Url = brkUrl + "/" + dev.entityId + "/TEST";
@@ -9745,7 +9746,7 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
             setDeviceEntityID();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
             else
                 header.Url = brkUrl + "/" + dev.entityId + "/TEST";
@@ -12905,10 +12906,10 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            if (comboBox7.Text == "검수기")
-                header.Url = cshosturl + uri + textBox14.Text;
-            else
+            if (charger.server == "stg")
                 header.Url = stgcshosturl + uri + textBox14.Text;
+            else
+                header.Url = cshosturl + uri + textBox14.Text;
             header.Method = "POST";
             header.X_EVC_BOX = textBox14.Text+ textBox12.Text;
             header.X_EVC_RI = charger.logid;
@@ -13041,6 +13042,7 @@ namespace WindowsFormsApp2
 
             var json = new JObject();
             json.Add("idTag", textBox15.Text);
+            textBox9.Text = String.Empty;
 
             string retStr = SendDataToEVSP(authuri, json.ToString());
             if (charger.state == "heart")
@@ -13089,7 +13091,10 @@ namespace WindowsFormsApp2
             var json2 = new JObject();
             json2.Add("connectorId", int.Parse(textBox17.Text));
             json2.Add("idTag", textBox15.Text);
-            json2.Add("transactionId", Convert.ToUInt64(textBox9.Text));
+            if (textBox9.Text != String.Empty)
+                json2.Add("transactionId", Convert.ToUInt64(textBox9.Text));
+            else
+                json2.Add("transactionId", "");
             json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
 
@@ -13316,6 +13321,8 @@ namespace WindowsFormsApp2
                     json.Add("command", "RemoteStartTransaction");
                     json.Add("connectorId", int.Parse(textBox17.Text));
                     json.Add("idTag", textBox15.Text);
+                    if (textBox9.Text == String.Empty)
+                        textBox9.Text = "123456";
                     json.Add("transactionId", Convert.ToUInt64(textBox9.Text));
                     json.Add("logid", charger.logid);
                     charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
@@ -13333,7 +13340,7 @@ namespace WindowsFormsApp2
         private void SendDataToEVC()
         {
             ReqHeader header = new ReqHeader();
-            if (comboBox7.Text == "검수기")
+            if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + charger.entityId + "/" + textBox14.Text;
             else
                 header.Url = brkUrl + "/" + charger.entityId + "/" + textBox14.Text;
@@ -14247,6 +14254,14 @@ namespace WindowsFormsApp2
                 MessageBox.Show(data, "상세 내용");
             }
         }
+
+        private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox7.SelectedIndex == 1)
+                charger.server = "stg";
+            else
+                charger.server = "dev";
+        }
     }
 
     public class Charger
@@ -14265,6 +14280,7 @@ namespace WindowsFormsApp2
         public string txdata { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
         public string tab { get; set; }          // 서비스서버에서 전송할 데이터 값(JSON)
         public int watt { get; set; }
+        public string server { get; set; }
     }
 
     public class Device
