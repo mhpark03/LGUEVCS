@@ -12604,7 +12604,7 @@ namespace WindowsFormsApp2
                                         listViewEVSP.Invoke(new LogToForm(LogEVSP), new object[] { "R" + cmd + rcvdata });
                                     else
                                         listViewEV.Invoke(new LogToForm(Log), new object[] { "R" + cmd + rcvdata });
-                                    parseRemoteCMD(rcvdata);
+                                    //parseRemoteCMD(rcvdata);
                                 }
                                 else
                                 {
