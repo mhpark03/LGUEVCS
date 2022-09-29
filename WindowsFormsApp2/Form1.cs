@@ -14262,6 +14262,32 @@ namespace WindowsFormsApp2
             else
                 charger.server = "dev";
         }
+
+        private void button146_Click(object sender, EventArgs e)
+        {
+            if (svr.enrmtKeyId != string.Empty)
+            {
+                if (charger.entityId != string.Empty)
+                {
+                    charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_appcancel";
+
+                    var json = new JObject();
+                    json.Add("command", "RemoteCancelTransaction");
+                    json.Add("connectorId", int.Parse(textBox17.Text));
+                    json.Add("idTag", textBox15.Text);
+                    json.Add("logid", charger.logid);
+                    charger.txdata = json.ToString((Newtonsoft.Json.Formatting)Formatting.None);
+                    //charger.txdata = json.ToString();
+
+                    rTh = new Thread(new ThreadStart(SendDataToEVC));
+                    rTh.Start();
+                }
+                else
+                    MessageBox.Show("CTN이 등록되어 있지 않습니다.확인이 필요합니다.");
+            }
+            else
+                MessageBox.Show("서버인증파라미터 세팅하세요");
+        }
     }
 
     public class Charger

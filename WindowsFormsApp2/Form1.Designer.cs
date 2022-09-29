@@ -581,6 +581,7 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.button146 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -1475,6 +1476,7 @@
             // 
             // groupBox31
             // 
+            this.groupBox31.Controls.Add(this.button146);
             this.groupBox31.Controls.Add(this.button137);
             this.groupBox31.Controls.Add(this.button136);
             this.groupBox31.Controls.Add(this.textBox16);
@@ -1591,7 +1593,7 @@
             // 
             // btnRemoteStop
             // 
-            this.btnRemoteStop.Location = new System.Drawing.Point(18, 49);
+            this.btnRemoteStop.Location = new System.Drawing.Point(164, 78);
             this.btnRemoteStop.Name = "btnRemoteStop";
             this.btnRemoteStop.Size = new System.Drawing.Size(126, 23);
             this.btnRemoteStop.TabIndex = 88;
@@ -6608,6 +6610,16 @@
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // button146
+            // 
+            this.button146.Location = new System.Drawing.Point(165, 20);
+            this.button146.Name = "button146";
+            this.button146.Size = new System.Drawing.Size(126, 23);
+            this.button146.TabIndex = 111;
+            this.button146.Text = "충전취소";
+            this.button146.UseVisualStyleBackColor = true;
+            this.button146.Click += new System.EventHandler(this.button146_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -7262,6 +7274,7 @@
         private System.Windows.Forms.TextBox textBox17;
         private System.Windows.Forms.ComboBox comboBox7;
         private System.Windows.Forms.Label label57;
+        private System.Windows.Forms.Button button146;
     }
 }
 
