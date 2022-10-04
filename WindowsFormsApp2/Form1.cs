@@ -958,6 +958,7 @@ namespace WindowsFormsApp2
             charger.state = "idle";
             charger.entityId = string.Empty;
             charger.server = "dev";
+            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_boot";
         }
 
         private void doOpenComPort()
