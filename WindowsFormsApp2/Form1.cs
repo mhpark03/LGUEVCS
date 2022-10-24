@@ -503,13 +503,18 @@ namespace WindowsFormsApp2
         // 개발서버
         string brkUrl = "https://testbrk.onem2m.uplus.co.kr:443"; // BRK(oneM2M 개발기)       
         string mefUrl = "https://testmef.onem2m.uplus.co.kr:443"; // MEF(개발기)
-        string cshosturl = "http://devevspcharger.uplus.co.kr";     // EVSP(개발기)
+        string cshosturl = "https://devevspcharger.uplus.co.kr";     // EVSP(개발기)
 
         // 검수서버
         string stgbrkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
         string stgmefUrl = "https://devmef.onem2m.uplus.co.kr:443";  // MEF(검수기)
-        string stgcshosturl = "http://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
-        
+        string stgcshosturl = "https://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
+
+        // 상용서버
+        string opbrkUrl = "http://brk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
+        string opmefUrl = "https://mef.onem2m.uplus.co.kr:443";  // MEF(검수기)
+        string opcshosturl = "https://evspcharger.uplus.co.kr";   // EVSP(검수기)
+
         string authuri = "/api/v1/OCPP/authorize/";
         string bootNturi = "/api/v1/OCPP/bootNotification/";
         string dataTruri = "/api/v1/OCPP/dataTransfer/";
@@ -8325,7 +8330,9 @@ namespace WindowsFormsApp2
         private void RequestMEF()
         {
             ReqHeader header = new ReqHeader();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opmefUrl + "/mef/server";
+            else if (charger.server == "stg")
                 header.Url = stgmefUrl + "/mef/server";
             else
                 header.Url = mefUrl + "/mef/server";
@@ -8865,14 +8872,18 @@ namespace WindowsFormsApp2
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 1)
             {
-                if (charger.server == "stg")
+                if (charger.server == "op")
+                    header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
+                else if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D" + dev.imsi;
             }
             else
             {
-                if (charger.server == "stg")
+                if (charger.server == "op")
+                    header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
+                else if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_D_" + dev.imsi;
@@ -8910,21 +8921,27 @@ namespace WindowsFormsApp2
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847";
             if (comboBox2.SelectedIndex == 0)
             {
-                if (charger.server == "stg")
+                if (charger.server == "op")
+                    header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
+                else if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_" + dev.imsi;
             }
             else if (comboBox2.SelectedIndex == 1)
             {
-                if (charger.server == "stg")
+                if (charger.server == "op")
+                    header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
+                else if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M" + dev.imsi;
             }
             else
             {
-                if (charger.server == "stg")
+                if (charger.server == "op")
+                    header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
+                else if (charger.server == "stg")
                     header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
                 else
                     header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + dev.imsi + "/nod-m2m_" + dev.imsi + "/fwr-m2m_M_" + dev.imsi;
@@ -9262,7 +9279,9 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEGet()
         {
             ReqHeader header = new ReqHeader();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
@@ -9290,7 +9309,9 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSECreate()
         {
             ReqHeader header = new ReqHeader();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1";
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1";
@@ -9329,7 +9350,9 @@ namespace WindowsFormsApp2
         private void ReqRemoteCSEDEL()
         {
             ReqHeader header = new ReqHeader();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/" + svr.remoteCSEName;
@@ -9360,7 +9383,9 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
             //header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_01222990847/cnt-TEMP/la";
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-DtoS/la";
@@ -9433,7 +9458,9 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
             else
                 header.Url = brkUrl + "/IN_CSE-BASE-1/cb-1/csr-m2m_" + tbDeviceCTN.Text + "/cnt-StoD";
@@ -9647,7 +9674,9 @@ namespace WindowsFormsApp2
 
             ReqHeader header = new ReqHeader();
             setDeviceEntityID();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/" + dev.entityId + "/TEST";
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
             else
                 header.Url = brkUrl + "/" + dev.entityId + "/TEST";
@@ -9747,7 +9776,9 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
             setDeviceEntityID();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/" + dev.entityId + "/TEST";
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + dev.entityId + "/TEST";
             else
                 header.Url = brkUrl + "/" + dev.entityId + "/TEST";
@@ -12605,7 +12636,7 @@ namespace WindowsFormsApp2
                                         listViewEVSP.Invoke(new LogToForm(LogEVSP), new object[] { "R" + cmd + rcvdata });
                                     else
                                         listViewEV.Invoke(new LogToForm(Log), new object[] { "R" + cmd + rcvdata });
-                                    parseRemoteCMD(rcvdata);
+                                    //parseRemoteCMD(rcvdata);
                                 }
                                 else
                                 {
@@ -12907,7 +12938,9 @@ namespace WindowsFormsApp2
         {
             ReqHeader header = new ReqHeader();
 
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opcshosturl + uri + textBox14.Text;
+            else if (charger.server == "stg")
                 header.Url = stgcshosturl + uri + textBox14.Text;
             else
                 header.Url = cshosturl + uri + textBox14.Text;
@@ -13126,7 +13159,7 @@ namespace WindowsFormsApp2
             var json = new JObject();
             json.Add("connectorId", int.Parse(textBox17.Text));
             json.Add("idTag", textBox15.Text);
-            json.Add("meterStart", 100);
+            json.Add("meterStart", 0);
             json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             if (charger.state == "remotestart")
                 json.Add("reservationId", textBox9.Text);
@@ -13341,7 +13374,9 @@ namespace WindowsFormsApp2
         private void SendDataToEVC()
         {
             ReqHeader header = new ReqHeader();
-            if (charger.server == "stg")
+            if (charger.server == "op")
+                header.Url = opbrkUrl + "/" + charger.entityId + "/" + textBox14.Text;
+            else if (charger.server == "stg")
                 header.Url = stgbrkUrl + "/" + charger.entityId + "/" + textBox14.Text;
             else
                 header.Url = brkUrl + "/" + charger.entityId + "/" + textBox14.Text;
@@ -14258,7 +14293,9 @@ namespace WindowsFormsApp2
 
         private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox7.SelectedIndex == 1)
+            if (comboBox7.SelectedIndex == 2)
+                charger.server = "op";
+            else if (comboBox7.SelectedIndex == 1)
                 charger.server = "stg";
             else
                 charger.server = "dev";

@@ -103,6 +103,7 @@
             this.groupBox30 = new System.Windows.Forms.GroupBox();
             this.listViewEVSP = new System.Windows.Forms.ListView();
             this.groupBox31 = new System.Windows.Forms.GroupBox();
+            this.button146 = new System.Windows.Forms.Button();
             this.button137 = new System.Windows.Forms.Button();
             this.button136 = new System.Windows.Forms.Button();
             this.textBox16 = new System.Windows.Forms.TextBox();
@@ -581,7 +582,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.button146 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
@@ -780,7 +780,8 @@
             this.comboBox7.FormattingEnabled = true;
             this.comboBox7.Items.AddRange(new object[] {
             "개발기",
-            "검수기"});
+            "검수기",
+            "상용기"});
             this.comboBox7.Location = new System.Drawing.Point(94, 22);
             this.comboBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.comboBox7.Name = "comboBox7";
@@ -1495,6 +1496,16 @@
             this.groupBox31.TabIndex = 84;
             this.groupBox31.TabStop = false;
             this.groupBox31.Text = "Device 원격제어";
+            // 
+            // button146
+            // 
+            this.button146.Location = new System.Drawing.Point(165, 20);
+            this.button146.Name = "button146";
+            this.button146.Size = new System.Drawing.Size(126, 23);
+            this.button146.TabIndex = 111;
+            this.button146.Text = "충전취소";
+            this.button146.UseVisualStyleBackColor = true;
+            this.button146.Click += new System.EventHandler(this.button146_Click);
             // 
             // button137
             // 
@@ -6609,16 +6620,6 @@
             // timer3
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // button146
-            // 
-            this.button146.Location = new System.Drawing.Point(165, 20);
-            this.button146.Name = "button146";
-            this.button146.Size = new System.Drawing.Size(126, 23);
-            this.button146.TabIndex = 111;
-            this.button146.Text = "충전취소";
-            this.button146.UseVisualStyleBackColor = true;
-            this.button146.Click += new System.EventHandler(this.button146_Click);
             // 
             // Form1
             // 
