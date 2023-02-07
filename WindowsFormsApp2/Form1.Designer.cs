@@ -37,6 +37,49 @@
             this.cbRTS = new System.Windows.Forms.CheckBox();
             this.cbDTR = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.label68 = new System.Windows.Forms.Label();
+            this.button148 = new System.Windows.Forms.Button();
+            this.label69 = new System.Windows.Forms.Label();
+            this.button149 = new System.Windows.Forms.Button();
+            this.groupBox35 = new System.Windows.Forms.GroupBox();
+            this.label70 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.label71 = new System.Windows.Forms.Label();
+            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.label72 = new System.Windows.Forms.Label();
+            this.button152 = new System.Windows.Forms.Button();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.label74 = new System.Windows.Forms.Label();
+            this.groupBox36 = new System.Windows.Forms.GroupBox();
+            this.button153 = new System.Windows.Forms.Button();
+            this.button154 = new System.Windows.Forms.Button();
+            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.label75 = new System.Windows.Forms.Label();
+            this.button155 = new System.Windows.Forms.Button();
+            this.label76 = new System.Windows.Forms.Label();
+            this.label77 = new System.Windows.Forms.Label();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.button156 = new System.Windows.Forms.Button();
+            this.label78 = new System.Windows.Forms.Label();
+            this.textBox26 = new System.Windows.Forms.TextBox();
+            this.button157 = new System.Windows.Forms.Button();
+            this.button158 = new System.Windows.Forms.Button();
+            this.button159 = new System.Windows.Forms.Button();
+            this.button160 = new System.Windows.Forms.Button();
+            this.button161 = new System.Windows.Forms.Button();
+            this.button162 = new System.Windows.Forms.Button();
+            this.button163 = new System.Windows.Forms.Button();
+            this.button164 = new System.Windows.Forms.Button();
+            this.button165 = new System.Windows.Forms.Button();
+            this.button166 = new System.Windows.Forms.Button();
+            this.textBox27 = new System.Windows.Forms.TextBox();
+            this.button167 = new System.Windows.Forms.Button();
+            this.groupBox37 = new System.Windows.Forms.GroupBox();
+            this.listView12 = new System.Windows.Forms.ListView();
             this.tabEVDevice = new System.Windows.Forms.TabPage();
             this.comboBox7 = new System.Windows.Forms.ComboBox();
             this.label57 = new System.Windows.Forms.Label();
@@ -582,8 +625,13 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
+            this.button150 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.groupBox35.SuspendLayout();
+            this.groupBox36.SuspendLayout();
+            this.groupBox37.SuspendLayout();
             this.tabEVDevice.SuspendLayout();
             this.groupBox33.SuspendLayout();
             this.groupBox34.SuspendLayout();
@@ -739,6 +787,7 @@
             this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabEVDevice);
             this.tabControl1.Controls.Add(this.tabECServer);
             this.tabControl1.Controls.Add(this.tabCOM);
@@ -758,6 +807,466 @@
             this.tabControl1.TabIndex = 44;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.comboBox8);
+            this.tabPage1.Controls.Add(this.label68);
+            this.tabPage1.Controls.Add(this.button148);
+            this.tabPage1.Controls.Add(this.label69);
+            this.tabPage1.Controls.Add(this.button149);
+            this.tabPage1.Controls.Add(this.groupBox35);
+            this.tabPage1.Controls.Add(this.groupBox36);
+            this.tabPage1.Controls.Add(this.groupBox37);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Size = new System.Drawing.Size(1172, 732);
+            this.tabPage1.TabIndex = 13;
+            this.tabPage1.Text = "충전기단말기(WS)";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // comboBox8
+            // 
+            this.comboBox8.FormattingEnabled = true;
+            this.comboBox8.Items.AddRange(new object[] {
+            "개발기",
+            "검수기",
+            "상용기"});
+            this.comboBox8.Location = new System.Drawing.Point(95, 20);
+            this.comboBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox8.Name = "comboBox8";
+            this.comboBox8.Size = new System.Drawing.Size(72, 20);
+            this.comboBox8.TabIndex = 120;
+            this.comboBox8.Text = "개발기";
+            // 
+            // label68
+            // 
+            this.label68.Location = new System.Drawing.Point(51, 18);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(70, 22);
+            this.label68.TabIndex = 124;
+            this.label68.Text = "서버";
+            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button148
+            // 
+            this.button148.Location = new System.Drawing.Point(186, 52);
+            this.button148.Name = "button148";
+            this.button148.Size = new System.Drawing.Size(126, 23);
+            this.button148.TabIndex = 123;
+            this.button148.Text = "자동 시작 (예약)";
+            this.button148.UseVisualStyleBackColor = true;
+            // 
+            // label69
+            // 
+            this.label69.Location = new System.Drawing.Point(337, 52);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(70, 22);
+            this.label69.TabIndex = 121;
+            this.label69.Text = "idle";
+            this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button149
+            // 
+            this.button149.Location = new System.Drawing.Point(41, 52);
+            this.button149.Name = "button149";
+            this.button149.Size = new System.Drawing.Size(126, 23);
+            this.button149.TabIndex = 122;
+            this.button149.Text = "자동 시작 (일반)";
+            this.button149.UseVisualStyleBackColor = true;
+            // 
+            // groupBox35
+            // 
+            this.groupBox35.Controls.Add(this.button150);
+            this.groupBox35.Controls.Add(this.label70);
+            this.groupBox35.Controls.Add(this.textBox18);
+            this.groupBox35.Controls.Add(this.label71);
+            this.groupBox35.Controls.Add(this.textBox19);
+            this.groupBox35.Controls.Add(this.label72);
+            this.groupBox35.Controls.Add(this.button152);
+            this.groupBox35.Controls.Add(this.textBox21);
+            this.groupBox35.Controls.Add(this.textBox22);
+            this.groupBox35.Controls.Add(this.label74);
+            this.groupBox35.Location = new System.Drawing.Point(9, 563);
+            this.groupBox35.Name = "groupBox35";
+            this.groupBox35.Size = new System.Drawing.Size(458, 148);
+            this.groupBox35.TabIndex = 119;
+            this.groupBox35.TabStop = false;
+            this.groupBox35.Text = "LTE라우터";
+            // 
+            // label70
+            // 
+            this.label70.Location = new System.Drawing.Point(23, 103);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(57, 22);
+            this.label70.TabIndex = 87;
+            this.label70.Text = "일련번호";
+            this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(106, 104);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(206, 21);
+            this.textBox18.TabIndex = 86;
+            this.textBox18.Text = "1";
+            // 
+            // label71
+            // 
+            this.label71.Location = new System.Drawing.Point(31, 78);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(49, 22);
+            this.label71.TabIndex = 85;
+            this.label71.Text = "모델명";
+            this.label71.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox19
+            // 
+            this.textBox19.Location = new System.Drawing.Point(106, 78);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(206, 21);
+            this.textBox19.TabIndex = 84;
+            this.textBox19.Text = "1A";
+            // 
+            // label72
+            // 
+            this.label72.Location = new System.Drawing.Point(30, 52);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(50, 22);
+            this.label72.TabIndex = 83;
+            this.label72.Text = "제조사";
+            this.label72.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button152
+            // 
+            this.button152.Location = new System.Drawing.Point(318, 17);
+            this.button152.Name = "button152";
+            this.button152.Size = new System.Drawing.Size(104, 22);
+            this.button152.TabIndex = 80;
+            this.button152.Text = "WebSocket연결";
+            this.button152.UseVisualStyleBackColor = true;
+            this.button152.Click += new System.EventHandler(this.button152_Click);
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(106, 18);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(206, 21);
+            this.textBox21.TabIndex = 12;
+            this.textBox21.Text = "ws://localhost:8080";
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(106, 51);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(206, 21);
+            this.textBox22.TabIndex = 18;
+            this.textBox22.Text = "11500151301";
+            // 
+            // label74
+            // 
+            this.label74.Location = new System.Drawing.Point(13, 17);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(80, 22);
+            this.label74.TabIndex = 11;
+            this.label74.Text = "WS Address";
+            this.label74.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // groupBox36
+            // 
+            this.groupBox36.Controls.Add(this.button153);
+            this.groupBox36.Controls.Add(this.button154);
+            this.groupBox36.Controls.Add(this.comboBox9);
+            this.groupBox36.Controls.Add(this.label75);
+            this.groupBox36.Controls.Add(this.button155);
+            this.groupBox36.Controls.Add(this.label76);
+            this.groupBox36.Controls.Add(this.label77);
+            this.groupBox36.Controls.Add(this.textBox23);
+            this.groupBox36.Controls.Add(this.textBox25);
+            this.groupBox36.Controls.Add(this.button156);
+            this.groupBox36.Controls.Add(this.label78);
+            this.groupBox36.Controls.Add(this.textBox26);
+            this.groupBox36.Controls.Add(this.button157);
+            this.groupBox36.Controls.Add(this.button158);
+            this.groupBox36.Controls.Add(this.button159);
+            this.groupBox36.Controls.Add(this.button160);
+            this.groupBox36.Controls.Add(this.button161);
+            this.groupBox36.Controls.Add(this.button162);
+            this.groupBox36.Controls.Add(this.button163);
+            this.groupBox36.Controls.Add(this.button164);
+            this.groupBox36.Controls.Add(this.button165);
+            this.groupBox36.Controls.Add(this.button166);
+            this.groupBox36.Controls.Add(this.textBox27);
+            this.groupBox36.Controls.Add(this.button167);
+            this.groupBox36.Location = new System.Drawing.Point(9, 101);
+            this.groupBox36.Name = "groupBox36";
+            this.groupBox36.Size = new System.Drawing.Size(461, 443);
+            this.groupBox36.TabIndex = 118;
+            this.groupBox36.TabStop = false;
+            this.groupBox36.Text = "충전기 동작";
+            // 
+            // button153
+            // 
+            this.button153.Location = new System.Drawing.Point(20, 381);
+            this.button153.Name = "button153";
+            this.button153.Size = new System.Drawing.Size(138, 23);
+            this.button153.TabIndex = 113;
+            this.button153.Text = "미전송데이터";
+            this.button153.UseVisualStyleBackColor = true;
+            // 
+            // button154
+            // 
+            this.button154.Location = new System.Drawing.Point(19, 106);
+            this.button154.Name = "button154";
+            this.button154.Size = new System.Drawing.Size(135, 23);
+            this.button154.TabIndex = 112;
+            this.button154.Text = "StatusNoti(Reserved)";
+            this.button154.UseVisualStyleBackColor = true;
+            // 
+            // comboBox9
+            // 
+            this.comboBox9.FormattingEnabled = true;
+            this.comboBox9.Items.AddRange(new object[] {
+            "NWERR",
+            "ONEERR",
+            "ERROR",
+            "ConnectorLockFailure",
+            "GroundFailure",
+            "OverCurrentFailure",
+            "OverVoltage",
+            "PowerMeterFailure",
+            "PowerSwitchFailure",
+            "ReaderFailure",
+            "UnderVoltage",
+            "oneM2MFailure",
+            "ResetFailure",
+            "cpadfault",
+            "emswon",
+            "HighTemperature",
+            "WeakSignal",
+            "LocalListConflict",
+            "InternalError",
+            "modemReset",
+            "dooropenfailure",
+            "fqfault",
+            "mconfalut",
+            "EVCommunicationError",
+            "OtherError",
+            "NoError"});
+            this.comboBox9.Location = new System.Drawing.Point(240, 345);
+            this.comboBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.comboBox9.Name = "comboBox9";
+            this.comboBox9.Size = new System.Drawing.Size(126, 20);
+            this.comboBox9.TabIndex = 111;
+            this.comboBox9.Text = "NWERR";
+            // 
+            // label75
+            // 
+            this.label75.Location = new System.Drawing.Point(175, 342);
+            this.label75.Name = "label75";
+            this.label75.Size = new System.Drawing.Size(93, 22);
+            this.label75.TabIndex = 110;
+            this.label75.Text = "오류종류";
+            this.label75.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // button155
+            // 
+            this.button155.Location = new System.Drawing.Point(20, 342);
+            this.button155.Name = "button155";
+            this.button155.Size = new System.Drawing.Size(138, 23);
+            this.button155.TabIndex = 109;
+            this.button155.Text = "Status(Faulted)";
+            this.button155.UseVisualStyleBackColor = true;
+            // 
+            // label76
+            // 
+            this.label76.Location = new System.Drawing.Point(161, 267);
+            this.label76.Name = "label76";
+            this.label76.Size = new System.Drawing.Size(93, 22);
+            this.label76.TabIndex = 108;
+            this.label76.Text = "TransactionID";
+            this.label76.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label77
+            // 
+            this.label77.Location = new System.Drawing.Point(155, 49);
+            this.label77.Name = "label77";
+            this.label77.Size = new System.Drawing.Size(70, 22);
+            this.label77.TabIndex = 107;
+            this.label77.Text = "계량기 SN";
+            this.label77.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox23
+            // 
+            this.textBox23.Location = new System.Drawing.Point(231, 49);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(167, 21);
+            this.textBox23.TabIndex = 106;
+            this.textBox23.Text = "CNTER23123123";
+            // 
+            // textBox25
+            // 
+            this.textBox25.Location = new System.Drawing.Point(255, 268);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(177, 21);
+            this.textBox25.TabIndex = 105;
+            this.textBox25.Text = "107432";
+            // 
+            // button156
+            // 
+            this.button156.Location = new System.Drawing.Point(20, 164);
+            this.button156.Name = "button156";
+            this.button156.Size = new System.Drawing.Size(135, 23);
+            this.button156.TabIndex = 104;
+            this.button156.Text = "StartStatus(Prepair)";
+            this.button156.UseVisualStyleBackColor = true;
+            // 
+            // label78
+            // 
+            this.label78.Location = new System.Drawing.Point(155, 22);
+            this.label78.Name = "label78";
+            this.label78.Size = new System.Drawing.Size(70, 22);
+            this.label78.TabIndex = 103;
+            this.label78.Text = "충전기 SN";
+            this.label78.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox26
+            // 
+            this.textBox26.Location = new System.Drawing.Point(231, 22);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(167, 21);
+            this.textBox26.TabIndex = 102;
+            this.textBox26.Text = "EVSCA070005";
+            // 
+            // button157
+            // 
+            this.button157.Location = new System.Drawing.Point(177, 304);
+            this.button157.Name = "button157";
+            this.button157.Size = new System.Drawing.Size(138, 23);
+            this.button157.TabIndex = 101;
+            this.button157.Text = "Status(Finish)";
+            this.button157.UseVisualStyleBackColor = true;
+            // 
+            // button158
+            // 
+            this.button158.Location = new System.Drawing.Point(177, 237);
+            this.button158.Name = "button158";
+            this.button158.Size = new System.Drawing.Size(138, 23);
+            this.button158.TabIndex = 99;
+            this.button158.Text = "Status(charging)";
+            this.button158.UseVisualStyleBackColor = true;
+            // 
+            // button159
+            // 
+            this.button159.Location = new System.Drawing.Point(20, 304);
+            this.button159.Name = "button159";
+            this.button159.Size = new System.Drawing.Size(135, 23);
+            this.button159.TabIndex = 98;
+            this.button159.Text = "Stop";
+            this.button159.UseVisualStyleBackColor = true;
+            // 
+            // button160
+            // 
+            this.button160.Location = new System.Drawing.Point(18, 266);
+            this.button160.Name = "button160";
+            this.button160.Size = new System.Drawing.Size(137, 23);
+            this.button160.TabIndex = 97;
+            this.button160.Text = "Meter";
+            this.button160.UseVisualStyleBackColor = true;
+            // 
+            // button161
+            // 
+            this.button161.Location = new System.Drawing.Point(18, 237);
+            this.button161.Name = "button161";
+            this.button161.Size = new System.Drawing.Size(137, 23);
+            this.button161.TabIndex = 96;
+            this.button161.Text = "Start";
+            this.button161.UseVisualStyleBackColor = true;
+            // 
+            // button162
+            // 
+            this.button162.Location = new System.Drawing.Point(300, 164);
+            this.button162.Name = "button162";
+            this.button162.Size = new System.Drawing.Size(138, 23);
+            this.button162.TabIndex = 93;
+            this.button162.Text = "Cost";
+            this.button162.UseVisualStyleBackColor = true;
+            // 
+            // button163
+            // 
+            this.button163.Location = new System.Drawing.Point(161, 164);
+            this.button163.Name = "button163";
+            this.button163.Size = new System.Drawing.Size(136, 23);
+            this.button163.TabIndex = 92;
+            this.button163.Text = "Tariff";
+            this.button163.UseVisualStyleBackColor = true;
+            // 
+            // button164
+            // 
+            this.button164.Location = new System.Drawing.Point(177, 80);
+            this.button164.Name = "button164";
+            this.button164.Size = new System.Drawing.Size(126, 23);
+            this.button164.TabIndex = 91;
+            this.button164.Text = "HeartBet";
+            this.button164.UseVisualStyleBackColor = true;
+            // 
+            // button165
+            // 
+            this.button165.Location = new System.Drawing.Point(20, 80);
+            this.button165.Name = "button165";
+            this.button165.Size = new System.Drawing.Size(135, 23);
+            this.button165.TabIndex = 90;
+            this.button165.Text = "StatusNoti(Available)";
+            this.button165.UseVisualStyleBackColor = true;
+            // 
+            // button166
+            // 
+            this.button166.Location = new System.Drawing.Point(19, 20);
+            this.button166.Name = "button166";
+            this.button166.Size = new System.Drawing.Size(126, 23);
+            this.button166.TabIndex = 89;
+            this.button166.Text = "BootNoti";
+            this.button166.UseVisualStyleBackColor = true;
+            // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(177, 137);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(206, 21);
+            this.textBox27.TabIndex = 88;
+            this.textBox27.Text = "1010001482568043";
+            // 
+            // button167
+            // 
+            this.button167.Location = new System.Drawing.Point(20, 135);
+            this.button167.Name = "button167";
+            this.button167.Size = new System.Drawing.Size(135, 23);
+            this.button167.TabIndex = 79;
+            this.button167.Text = "카드인증";
+            this.button167.UseVisualStyleBackColor = true;
+            // 
+            // groupBox37
+            // 
+            this.groupBox37.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox37.Controls.Add(this.listView12);
+            this.groupBox37.Location = new System.Drawing.Point(490, 18);
+            this.groupBox37.Name = "groupBox37";
+            this.groupBox37.Size = new System.Drawing.Size(673, 696);
+            this.groupBox37.TabIndex = 117;
+            this.groupBox37.TabStop = false;
+            this.groupBox37.Text = "DEVICE INTERFACE";
+            // 
+            // listView12
+            // 
+            this.listView12.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView12.HideSelection = false;
+            this.listView12.Location = new System.Drawing.Point(3, 17);
+            this.listView12.Name = "listView12";
+            this.listView12.Size = new System.Drawing.Size(667, 676);
+            this.listView12.TabIndex = 27;
+            this.listView12.UseCompatibleStateImageBehavior = false;
+            // 
             // tabEVDevice
             // 
             this.tabEVDevice.Controls.Add(this.comboBox7);
@@ -772,7 +1281,7 @@
             this.tabEVDevice.Name = "tabEVDevice";
             this.tabEVDevice.Size = new System.Drawing.Size(1172, 732);
             this.tabEVDevice.TabIndex = 11;
-            this.tabEVDevice.Text = "충전기단말";
+            this.tabEVDevice.Text = "충전기단말(HTTP)";
             this.tabEVDevice.UseVisualStyleBackColor = true;
             // 
             // comboBox7
@@ -6621,6 +7130,16 @@
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
             // 
+            // button150
+            // 
+            this.button150.Location = new System.Drawing.Point(318, 45);
+            this.button150.Name = "button150";
+            this.button150.Size = new System.Drawing.Size(104, 22);
+            this.button150.TabIndex = 88;
+            this.button150.Text = "WebSocket해제";
+            this.button150.UseVisualStyleBackColor = true;
+            this.button150.Click += new System.EventHandler(this.button150_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
@@ -6638,6 +7157,12 @@
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.groupBox35.ResumeLayout(false);
+            this.groupBox35.PerformLayout();
+            this.groupBox36.ResumeLayout(false);
+            this.groupBox36.PerformLayout();
+            this.groupBox37.ResumeLayout(false);
             this.tabEVDevice.ResumeLayout(false);
             this.groupBox33.ResumeLayout(false);
             this.groupBox33.PerformLayout();
@@ -7276,6 +7801,50 @@
         private System.Windows.Forms.ComboBox comboBox7;
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.Button button146;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.Button button148;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.Button button149;
+        private System.Windows.Forms.GroupBox groupBox35;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.Button button152;
+        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.GroupBox groupBox36;
+        private System.Windows.Forms.Button button153;
+        private System.Windows.Forms.Button button154;
+        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.Label label75;
+        private System.Windows.Forms.Button button155;
+        private System.Windows.Forms.Label label76;
+        private System.Windows.Forms.Label label77;
+        private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.Button button156;
+        private System.Windows.Forms.Label label78;
+        private System.Windows.Forms.TextBox textBox26;
+        private System.Windows.Forms.Button button157;
+        private System.Windows.Forms.Button button158;
+        private System.Windows.Forms.Button button159;
+        private System.Windows.Forms.Button button160;
+        private System.Windows.Forms.Button button161;
+        private System.Windows.Forms.Button button162;
+        private System.Windows.Forms.Button button163;
+        private System.Windows.Forms.Button button164;
+        private System.Windows.Forms.Button button165;
+        private System.Windows.Forms.Button button166;
+        private System.Windows.Forms.TextBox textBox27;
+        private System.Windows.Forms.Button button167;
+        private System.Windows.Forms.GroupBox groupBox37;
+        private System.Windows.Forms.ListView listView12;
+        private System.Windows.Forms.Button button150;
     }
 }
 

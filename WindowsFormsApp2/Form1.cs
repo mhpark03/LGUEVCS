@@ -15,6 +15,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using WebSocketSharp;
 
 /*
 * 8180번 포트 리스닝을 위한 선행 작업 
@@ -528,6 +529,8 @@ namespace WindowsFormsApp2
         Charger charger = new Charger();
         string evstate = string.Empty;
 
+        private WebSocket client;
+
         public Form1()
         {
             InitializeComponent();
@@ -946,16 +949,16 @@ namespace WindowsFormsApp2
             listViewEV.Columns.Add("cmd/logid", 150, HorizontalAlignment.Center);
             listViewEV.Columns.Add(" 전송 내용", 1000, HorizontalAlignment.Left);
 
-            listViewEVSP.View = View.Details;
-            listViewEVSP.GridLines = true;
-            listViewEVSP.FullRowSelect = true;
-            listViewEVSP.CheckBoxes = false;
+            listView12.View = View.Details;
+            listView12.GridLines = true;
+            listView12.FullRowSelect = true;
+            listView12.CheckBoxes = false;
 
-            listViewEVSP.Columns.Add("시간", 60, HorizontalAlignment.Center);
-            listViewEVSP.Columns.Add("state", 50, HorizontalAlignment.Center);
-            listViewEVSP.Columns.Add("TR", 30, HorizontalAlignment.Center);
-            listViewEVSP.Columns.Add("logid", 150, HorizontalAlignment.Center);
-            listViewEVSP.Columns.Add(" 전송 내용", 1000, HorizontalAlignment.Left);
+            listView12.Columns.Add("시간", 60, HorizontalAlignment.Center);
+            listView12.Columns.Add("state", 50, HorizontalAlignment.Center);
+            listView12.Columns.Add("TR", 30, HorizontalAlignment.Center);
+            listView12.Columns.Add("logid", 150, HorizontalAlignment.Center);
+            listView12.Columns.Add(" 전송 내용", 1000, HorizontalAlignment.Left);
 
             tcStartTime = DateTime.Now.AddHours(-2);
             dateTimePicker1.Value = tcStartTime;
@@ -12567,6 +12570,31 @@ namespace WindowsFormsApp2
             }));
         }
 
+        private void LogWS(string msg)
+        {
+            BeginInvoke(new Action(() =>
+            {
+                string time = DateTime.Now.ToString("hh:mm:ss");
+                string dir = msg.Substring(0, 1);
+                string cmd = msg.Substring(1, 2);
+                msg = msg.Substring(3);
+
+                ListViewItem newitem;
+                if (cmd == "  ")
+                    newitem = new ListViewItem(new string[] { time, charger.state, dir, charger.logid, msg });
+                else
+                    newitem = new ListViewItem(new string[] { time, charger.state, dir, cmd, msg });
+                listView12.Items.Add(newitem);
+                if (listView12.Items.Count > 35)
+                {
+                    if (listView12.Items.Count > 500)
+                        listView12.Items.RemoveAt(0);
+
+                    listView12.TopItem = listView12.Items[listView12.Items.Count - 1];
+                }
+            }));
+        }
+
         public void RecvThread()
         {
             byte[] buffer = new byte[512];
@@ -14325,6 +14353,49 @@ namespace WindowsFormsApp2
             }
             else
                 MessageBox.Show("서버인증파라미터 세팅하세요");
+        }
+
+        private void button152_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Client Connected to Server");
+
+            client = new WebSocket(textBox21.Text);
+
+            client.OnOpen += Client_OnOpen;
+
+            client.OnError += Client_OnError;
+
+            client.OnMessage += Client_OnMessage;
+
+            client.OnClose += Client_OnClose;
+
+            client.Connect();
+        }
+
+        private void Client_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
+        {
+            Console.WriteLine("     Error: " + e.Message);
+        }
+
+        private void Client_OnClose(object sender, CloseEventArgs e)
+        {
+            Console.WriteLine("Client Disconnected");
+        }
+
+        private void Client_OnMessage(object sender, MessageEventArgs e)
+        {
+            Console.WriteLine("Receive data : " + e.Data);
+        }
+
+        private void Client_OnOpen(object sender, EventArgs e)
+        {
+            Console.WriteLine(string.Format("Connected to {0} successfully ", textBox21.Text));
+        }
+
+        private void button150_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("Client Disconnect");
+            client.Close();
         }
     }
 
