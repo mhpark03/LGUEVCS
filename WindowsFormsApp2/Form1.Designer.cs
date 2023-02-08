@@ -44,6 +44,8 @@
             this.label69 = new System.Windows.Forms.Label();
             this.button149 = new System.Windows.Forms.Button();
             this.groupBox35 = new System.Windows.Forms.GroupBox();
+            this.label70 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
             this.button150 = new System.Windows.Forms.Button();
             this.label71 = new System.Windows.Forms.Label();
             this.textBox19 = new System.Windows.Forms.TextBox();
@@ -53,6 +55,7 @@
             this.textBox22 = new System.Windows.Forms.TextBox();
             this.label74 = new System.Windows.Forms.Label();
             this.groupBox36 = new System.Windows.Forms.GroupBox();
+            this.button151 = new System.Windows.Forms.Button();
             this.button153 = new System.Windows.Forms.Button();
             this.button154 = new System.Windows.Forms.Button();
             this.comboBox9 = new System.Windows.Forms.ComboBox();
@@ -624,9 +627,6 @@
             this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.tabEVServer = new System.Windows.Forms.TabPage();
             this.timer3 = new System.Windows.Forms.Timer(this.components);
-            this.label70 = new System.Windows.Forms.Label();
-            this.textBox18 = new System.Windows.Forms.TextBox();
-            this.button151 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -894,6 +894,23 @@
             this.groupBox35.TabStop = false;
             this.groupBox35.Text = "LTE라우터";
             // 
+            // label70
+            // 
+            this.label70.Location = new System.Drawing.Point(22, 102);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(80, 22);
+            this.label70.TabIndex = 90;
+            this.label70.Text = "ConnectorID";
+            this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(108, 104);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(32, 21);
+            this.textBox18.TabIndex = 89;
+            this.textBox18.Text = "1";
+            // 
             // button150
             // 
             this.button150.Location = new System.Drawing.Point(318, 45);
@@ -919,7 +936,7 @@
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(206, 21);
             this.textBox19.TabIndex = 84;
-            this.textBox19.Text = "1A";
+            this.textBox19.Text = "UMT100";
             // 
             // label72
             // 
@@ -999,6 +1016,16 @@
             this.groupBox36.TabStop = false;
             this.groupBox36.Text = "충전기 동작";
             // 
+            // button151
+            // 
+            this.button151.Location = new System.Drawing.Point(177, 109);
+            this.button151.Name = "button151";
+            this.button151.Size = new System.Drawing.Size(126, 23);
+            this.button151.TabIndex = 114;
+            this.button151.Text = "HeartBet(ocpp)";
+            this.button151.UseVisualStyleBackColor = true;
+            this.button151.Click += new System.EventHandler(this.button151_Click);
+            // 
             // button153
             // 
             this.button153.Location = new System.Drawing.Point(20, 381);
@@ -1007,6 +1034,7 @@
             this.button153.TabIndex = 113;
             this.button153.Text = "미전송데이터";
             this.button153.UseVisualStyleBackColor = true;
+            this.button153.Click += new System.EventHandler(this.button153_Click);
             // 
             // button154
             // 
@@ -1163,6 +1191,7 @@
             this.button159.TabIndex = 98;
             this.button159.Text = "Stop";
             this.button159.UseVisualStyleBackColor = true;
+            this.button159.Click += new System.EventHandler(this.button159_Click);
             // 
             // button160
             // 
@@ -1172,6 +1201,7 @@
             this.button160.TabIndex = 97;
             this.button160.Text = "Meter";
             this.button160.UseVisualStyleBackColor = true;
+            this.button160.Click += new System.EventHandler(this.button160_Click);
             // 
             // button161
             // 
@@ -1181,6 +1211,7 @@
             this.button161.TabIndex = 96;
             this.button161.Text = "Start";
             this.button161.UseVisualStyleBackColor = true;
+            this.button161.Click += new System.EventHandler(this.button161_Click);
             // 
             // button162
             // 
@@ -1190,6 +1221,7 @@
             this.button162.TabIndex = 93;
             this.button162.Text = "Cost";
             this.button162.UseVisualStyleBackColor = true;
+            this.button162.Click += new System.EventHandler(this.button162_Click);
             // 
             // button163
             // 
@@ -1199,6 +1231,7 @@
             this.button163.TabIndex = 92;
             this.button163.Text = "Tariff";
             this.button163.UseVisualStyleBackColor = true;
+            this.button163.Click += new System.EventHandler(this.button163_Click);
             // 
             // button164
             // 
@@ -1246,6 +1279,7 @@
             this.button167.TabIndex = 79;
             this.button167.Text = "카드인증";
             this.button167.UseVisualStyleBackColor = true;
+            this.button167.Click += new System.EventHandler(this.button167_Click);
             // 
             // groupBox37
             // 
@@ -7133,33 +7167,6 @@
             // timer3
             // 
             this.timer3.Tick += new System.EventHandler(this.timer3_Tick);
-            // 
-            // label70
-            // 
-            this.label70.Location = new System.Drawing.Point(22, 102);
-            this.label70.Name = "label70";
-            this.label70.Size = new System.Drawing.Size(80, 22);
-            this.label70.TabIndex = 90;
-            this.label70.Text = "ConnectorID";
-            this.label70.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // textBox18
-            // 
-            this.textBox18.Location = new System.Drawing.Point(108, 104);
-            this.textBox18.Name = "textBox18";
-            this.textBox18.Size = new System.Drawing.Size(32, 21);
-            this.textBox18.TabIndex = 89;
-            this.textBox18.Text = "1";
-            // 
-            // button151
-            // 
-            this.button151.Location = new System.Drawing.Point(177, 109);
-            this.button151.Name = "button151";
-            this.button151.Size = new System.Drawing.Size(126, 23);
-            this.button151.TabIndex = 114;
-            this.button151.Text = "HeartBet(ocpp)";
-            this.button151.UseVisualStyleBackColor = true;
-            this.button151.Click += new System.EventHandler(this.button151_Click);
             // 
             // Form1
             // 

@@ -14391,6 +14391,7 @@ namespace WindowsFormsApp2
 
         private void Client_OnOpen(object sender, EventArgs e)
         {
+            LogWS(" " + "  " + "Connected to Server successfully ");
             Console.WriteLine(string.Format("Connected to {0} successfully ", textBox21.Text));
         }
 
@@ -14398,6 +14399,7 @@ namespace WindowsFormsApp2
         {
             Console.WriteLine("Client Disconnect");
             client.Close();
+            LogWS(" " + "  " + "Disconnected from Server");
         }
 
         private void button166_Click(object sender, EventArgs e)
@@ -14410,8 +14412,8 @@ namespace WindowsFormsApp2
             var json = new JObject();
             json.Add("Reason", reason);
             json.Add("chargePointSerialNumber", textBox26.Text);
-            json.Add("chargePointVendor", "LGU+");
-            json.Add("chargePointModel", "UMT100");
+            json.Add("chargePointVendor", textBox22.Text);
+            json.Add("chargePointModel", textBox19.Text);
             json.Add("firmwareVersion", tBoxDeviceVer.Text);
             json.Add("lccid", charger.iccid);
             json.Add("Imsi", charger.imsi);
@@ -14490,7 +14492,7 @@ namespace WindowsFormsApp2
         private void button155_Click(object sender, EventArgs e)
         {
             var json = new JObject();
-            json.Add("connectorId", int.Parse(textBox26.Text));
+            json.Add("connectorId", int.Parse(textBox18.Text));
             json.Add("errorCode", comboBox9.Text);
 
             var json2 = new JObject();
@@ -14537,12 +14539,264 @@ namespace WindowsFormsApp2
 
         private void SendDataToWS(string cmd, string data)
         {
-            string senddata = "[2.\"";
-            senddata += DateTime.Now.ToString("yyyyMMddHHmmss") + "\",\"";
-            senddata += cmd+"\",";
-            senddata += data + "]";
+            string senddata = "[2.\"" + charger.logid + "\",\"" + cmd+"\"," + data + "]";
             client.Send(senddata);
             LogWS("T" + "  " + senddata);
+        }
+
+        private void button167_Click(object sender, EventArgs e)
+        {
+            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_auth";
+
+            var json = new JObject();
+            json.Add("idTag", textBox27.Text);
+
+            SendDataToWS("Authification", json.ToString());
+            }
+
+        private void button163_Click(object sender, EventArgs e)
+        {
+            wsevcarTariff();
+        }
+
+        private void wsevcarTariff()
+        {
+            var json = new JObject();
+            json.Add("vendorId", "LGU");
+            json.Add("messageId", "Tariff");
+
+            var json2 = new JObject();
+            json2.Add("connectorId", int.Parse(textBox18.Text));
+            json2.Add("idTag", textBox27.Text);
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("data", json2);
+
+            SendDataToWS("DataTransfer", json.ToString());
+        }
+
+        private void button162_Click(object sender, EventArgs e)
+        {
+            wsevcarCost();
+        }
+
+        private void wsevcarCost()
+        {
+            var json = new JObject();
+            json.Add("vendorId", "LGU");
+            json.Add("messageId", "chargeValue");
+
+            var json2 = new JObject();
+            json2.Add("connectorId", int.Parse(textBox18.Text));
+            json2.Add("idTag", textBox27.Text);
+            if (textBox9.Text != String.Empty)
+                json2.Add("transactionId", Convert.ToUInt64(textBox25.Text));
+            else
+                json2.Add("transactionId", "");
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("data", json2);
+
+            SendDataToWS("DataTransfer", json.ToString());
+        }
+
+        private void button161_Click(object sender, EventArgs e)
+        {
+            charger.state = "start";
+            wsevcarStart();
+        }
+
+        private void wsevcarStart()
+        {
+            var json = new JObject();
+            json.Add("connectorId", int.Parse(textBox18.Text));
+            json.Add("idTag", textBox27.Text);
+            json.Add("meterStart", 100);
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            if (charger.state == "remotestart")
+                json.Add("reservationId", textBox25.Text);
+
+            SendDataToWS("DataTransfer", json.ToString());
+        }
+
+        private void button160_Click(object sender, EventArgs e)
+        {
+            charger.watt = 100;
+            wsevcarMeter();
+        }
+
+        private void wsevcarMeter()
+        {
+            var json = new JObject();
+            json.Add("connectorId", int.Parse(textBox18.Text));
+            json.Add("transactionId", Convert.ToUInt64(textBox25.Text));
+
+            var jarray = new JArray();
+            var json2 = new JObject();
+            json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+
+            var jarray2 = new JArray();
+            var json3 = new JObject();
+            json3.Add("measurand", "Current.Import");
+            json3.Add("phase", "L1");
+            json3.Add("unit", "A");
+            json3.Add("value", 15.8);
+            jarray2.Add(json3);
+
+            json3.RemoveAll();
+            json3.Add("measurand", "Voltage");
+            json3.Add("phase", "L1");
+            json3.Add("unit", "V");
+            json3.Add("value", 220.0);
+            jarray2.Add(json3);
+
+            json3.RemoveAll();
+            json3.Add("measurand", "Energy.Active.Import.Register");
+            json3.Add("unit", "Wh");
+            json3.Add("value", charger.watt);
+            charger.watt += 5;
+            jarray2.Add(json3);
+
+            json3.RemoveAll();
+            json3.Add("measurand", "SoC");
+            json3.Add("unit", "%");
+            json3.Add("value", 10);
+            jarray2.Add(json3);
+
+            json3.RemoveAll();
+            json3.Add("measurand", "Power.Active.Import");
+            json3.Add("unit", "W");
+            json3.Add("value", 0.4);
+            jarray2.Add(json3);
+
+            json2.Add("sampledValue", jarray2);
+            jarray.Add(json2);
+            json.Add("meterValue", jarray);
+
+            SendDataToWS("MeterValues", json.ToString());
+        }
+
+        private void button159_Click(object sender, EventArgs e)
+        {
+            if (charger.state == "remotestart")
+            {
+                wsevcarStatusNT("SuspenedEVSE");
+                Delay(1000);
+
+                wsevcarStatusNT("Finishing");
+                Delay(1000);
+            }
+
+            wsevcarStop();
+
+            if (charger.state == "remotestart")
+            {
+                Delay(1000);
+                wsevcarStatusNT("Available");
+            }
+
+            charger.state = "idle";
+        }
+
+        private void wsevcarStop()
+        {
+            var json = new JObject();
+            json.Add("idTag", textBox27.Text);
+            json.Add("meterStop", charger.watt + 100);
+            json.Add("reason", "Finished");
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("transactionId", Convert.ToUInt64(textBox25.Text));
+
+            SendDataToWS("StopTransaction", json.ToString());
+        }
+
+        private void button153_Click(object sender, EventArgs e)
+        {
+            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_resend";
+
+            var json = new JObject();
+            json.Add("vendorId", "LGU");
+            json.Add("messageId", "untransmittedMsg");
+
+            var json2 = new JObject();
+            var jarray = new JArray();
+
+            var json3 = new JObject();
+            var json4 = new JObject();
+            var json5 = new JObject();
+            var json6 = new JObject();
+
+            // first item (StatusNotification)
+            json3.Add("msgIdx", 1);
+            json3.Add("msgType", "BootNotification");
+
+            json4.Add("Accept", "application/json");
+            json4.Add("Content-Type", "application/json");
+            json4.Add("X-EVC-RI", "20220627125034_boot");
+            json4.Add("X-EVC-BOX", "114100005140A");
+            json4.Add("X-EVC-MDL", "UMT100");
+            json4.Add("X-EVC-OS", "Windows10");
+            json4.Add("X-EVC-SN", "123456");
+            json3.Add("msgHeader", json4);
+
+            json5.Add("connectorId", int.Parse(textBox17.Text));
+            json5.Add("errorCode", "NoError");
+
+            json6.Add("reason", "None");
+            json6.Add("cpv", 100);
+            json6.Add("rv", 11);
+            json5.Add("info", json6);
+
+            json5.Add("status", "Available");
+
+            json5.Add("timestamp", "2022-06-27T04:06:13Z");
+            json5.Add("vendorErrorCode", "");
+            json5.Add("vendorId", "LGU");
+
+            json3.Add("msgContent", json5);
+
+            json3.Add("timestamp", "2022-06-27T04:06:13Z");
+            jarray.Add(json3);
+
+            // second item (StatusNotification)
+            json3.RemoveAll();
+            json4.RemoveAll();
+            json5.RemoveAll();
+            json6.RemoveAll();
+
+            json3.Add("msgIdx", 2);
+            json3.Add("msgType", "BootNotification");
+
+            json4.Add("Accept", "application/json");
+            json4.Add("Content-Type", "application/json");
+            json4.Add("X-EVC-RI", "20220627125034_boot");
+            json4.Add("X-EVC-BOX", "114100005140A");
+            json4.Add("X-EVC-MDL", "UMT100");
+            json4.Add("X-EVC-OS", "Windows10");
+            json4.Add("X-EVC-SN", "123456");
+            json3.Add("msgHeader", json4);
+
+            json5.Add("connectorId", int.Parse(textBox17.Text));
+            json5.Add("errorCode", "NoError");
+
+            json6.Add("reason", "None");
+            json6.Add("cpv", 100);
+            json6.Add("rv", 11);
+            json5.Add("info", json6);
+
+            json5.Add("status", "Available");
+
+            json5.Add("timestamp", "2022-06-27T04:06:13Z");
+            json5.Add("vendorErrorCode", "");
+            json5.Add("vendorId", "LGU");
+
+            json3.Add("msgContent", json5);
+
+            json3.Add("timestamp", "2022-06-27T04:06:13Z");
+            jarray.Add(json3);
+
+            json2.Add("msglist", jarray);
+            json.Add("data", json2);
+
+            SendDataToWS("DataTransfer", json.ToString());
         }
     }
 
