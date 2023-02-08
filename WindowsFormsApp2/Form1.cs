@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Web.UI.WebControls.WebParts;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
@@ -14385,6 +14386,7 @@ namespace WindowsFormsApp2
         private void Client_OnMessage(object sender, MessageEventArgs e)
         {
             Console.WriteLine("Receive data : " + e.Data);
+            LogWS("R" + "  " + e.Data);
         }
 
         private void Client_OnOpen(object sender, EventArgs e)
@@ -14396,6 +14398,151 @@ namespace WindowsFormsApp2
         {
             Console.WriteLine("Client Disconnect");
             client.Close();
+        }
+
+        private void button166_Click(object sender, EventArgs e)
+        {
+            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_boot";
+            wsevcarBoot("PowerUp");
+        }
+        private void wsevcarBoot(string reason)
+        {
+            var json = new JObject();
+            json.Add("Reason", reason);
+            json.Add("chargePointSerialNumber", textBox26.Text);
+            json.Add("chargePointVendor", "LGU+");
+            json.Add("chargePointModel", "UMT100");
+            json.Add("firmwareVersion", tBoxDeviceVer.Text);
+            json.Add("lccid", charger.iccid);
+            json.Add("Imsi", charger.imsi);
+            json.Add("meterSerialNumber", textBox23.Text);
+            json.Add("rssi", charger.rssi);
+            json.Add("rsrp", charger.rsrp);
+            json.Add("snr", charger.snr);
+
+            SendDataToWS("BootNotification", json.ToString());
+        }
+
+        private void listView12_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ListView.SelectedListViewItemCollection itemColl = listView12.SelectedItems;
+            foreach (ListViewItem item in itemColl)
+            {
+                string data = item.SubItems[4].Text;
+                if (data.StartsWith("{") && data.EndsWith("}"))
+                {
+                    string beautifiedJson = JValue.Parse(data).ToString((Newtonsoft.Json.Formatting)Formatting.Indented);
+                    MessageBox.Show(beautifiedJson, "상세 내용");
+                }
+                else
+                {
+                    MessageBox.Show(data, "상세 내용");
+                }
+            }
+        }
+
+        private void button165_Click(object sender, EventArgs e)
+        {
+            wsevcarStatusNT("Available");
+        }
+
+        private void wsevcarStatusNT(string status)
+        {
+            var json = new JObject();
+            json.Add("connectorId", int.Parse(textBox18.Text));
+            json.Add("errorCode", "NoError");
+
+            var json2 = new JObject();
+            json2.Add("reason", "None");
+            json2.Add("cpv", 100);
+            json2.Add("rv", 11);
+            json.Add("info", json2);
+
+            json.Add("status", status);
+
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("vendorErrorCode", "");
+            json.Add("vendorId", "LGU");
+
+            SendDataToWS("StatusNotification", json.ToString());
+        }
+
+        private void button154_Click(object sender, EventArgs e)
+        {
+            wsevcarStatusNT("Reserved");
+        }
+
+        private void button156_Click(object sender, EventArgs e)
+        {
+            wsevcarStatusNT("Preparing");
+        }
+
+        private void button158_Click(object sender, EventArgs e)
+        {
+            wsevcarStatusNT("Charging");
+        }
+
+        private void button157_Click(object sender, EventArgs e)
+        {
+            wsevcarStatusNT("Finish");
+        }
+
+        private void button155_Click(object sender, EventArgs e)
+        {
+            var json = new JObject();
+            json.Add("connectorId", int.Parse(textBox26.Text));
+            json.Add("errorCode", comboBox9.Text);
+
+            var json2 = new JObject();
+            json2.Add("reason", "None");
+            json2.Add("cpv", 100);
+            json2.Add("rv", 11);
+            json.Add("info", json2);
+
+            json.Add("status", "Fault");
+
+            json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            json.Add("vendorErrorCode", "");
+            json.Add("vendorId", "LGU");
+
+            SendDataToWS("StatusNotification", json.ToString());
+        }
+
+        private void button164_Click(object sender, EventArgs e)
+        {
+            wsevcarHeart();
+        }
+
+        private void wsevcarHeart()
+        {
+            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_heart";
+
+            var json = new JObject();
+            json.Add("vendorId", "LGU");
+            json.Add("messageId", "heartbeat");
+
+            var json2 = new JObject();
+            json2.Add("rssi", charger.rssi);
+            json2.Add("rsrp", charger.rsrp);
+            json2.Add("snr", charger.snr);
+            json.Add("data", json2);
+
+            SendDataToWS("DataTranfer", json.ToString());
+        }
+
+        private void button151_Click(object sender, EventArgs e)
+        {
+            SendDataToWS("HeartBeat", "{}");
+        }
+
+        private void SendDataToWS(string cmd, string data)
+        {
+            string senddata = "[2.\"";
+            senddata += DateTime.Now.ToString("yyyyMMddHHmmss") + "\",\"";
+            senddata += cmd+"\",";
+            senddata += data + "]";
+            client.Send(senddata);
+            LogWS("T" + "  " + senddata);
         }
     }
 
