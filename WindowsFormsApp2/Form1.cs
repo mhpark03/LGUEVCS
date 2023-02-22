@@ -1199,7 +1199,7 @@ namespace WindowsFormsApp2
             char[] charValues = dataIN.ToCharArray();
 
             /* Debug를 위해 Hex로 문자열 표시*/
-            
+            /*
             string hexOutput = "";
             foreach (char _eachChar in charValues)
             {
@@ -1207,7 +1207,7 @@ namespace WindowsFormsApp2
                 hexOutput += String.Format("{0:X2}", Convert.ToInt32(_eachChar));
             }
             logPrintInTextBox(hexOutput, "");
-            
+            */
 
             if (charValues.Length >= 2)
             {
@@ -14534,7 +14534,7 @@ namespace WindowsFormsApp2
 
         private void button151_Click(object sender, EventArgs e)
         {
-            SendDataToWS("HeartBeat", "{}");
+            SendDataToWS("Heartbeat", "{}");
         }
 
         private void SendDataToWS(string cmd, string data)
@@ -14551,7 +14551,7 @@ namespace WindowsFormsApp2
             var json = new JObject();
             json.Add("idTag", textBox27.Text);
 
-            SendDataToWS("Authification", json.ToString());
+            SendDataToWS("Authorize", json.ToString());
             }
 
         private void button163_Click(object sender, EventArgs e)
@@ -14614,7 +14614,7 @@ namespace WindowsFormsApp2
             if (charger.state == "remotestart")
                 json.Add("reservationId", textBox25.Text);
 
-            SendDataToWS("DataTransfer", json.ToString());
+            SendDataToWS("StartTransaction", json.ToString());
         }
 
         private void button160_Click(object sender, EventArgs e)

@@ -38,11 +38,7 @@
             this.cbDTR = new System.Windows.Forms.CheckBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.comboBox8 = new System.Windows.Forms.ComboBox();
-            this.label68 = new System.Windows.Forms.Label();
-            this.button148 = new System.Windows.Forms.Button();
             this.label69 = new System.Windows.Forms.Label();
-            this.button149 = new System.Windows.Forms.Button();
             this.groupBox35 = new System.Windows.Forms.GroupBox();
             this.label70 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
@@ -810,11 +806,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.comboBox8);
-            this.tabPage1.Controls.Add(this.label68);
-            this.tabPage1.Controls.Add(this.button148);
             this.tabPage1.Controls.Add(this.label69);
-            this.tabPage1.Controls.Add(this.button149);
             this.tabPage1.Controls.Add(this.groupBox35);
             this.tabPage1.Controls.Add(this.groupBox36);
             this.tabPage1.Controls.Add(this.groupBox37);
@@ -825,55 +817,14 @@
             this.tabPage1.Text = "충전기단말기(WS)";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // comboBox8
-            // 
-            this.comboBox8.FormattingEnabled = true;
-            this.comboBox8.Items.AddRange(new object[] {
-            "개발기",
-            "검수기",
-            "상용기"});
-            this.comboBox8.Location = new System.Drawing.Point(95, 20);
-            this.comboBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.comboBox8.Name = "comboBox8";
-            this.comboBox8.Size = new System.Drawing.Size(72, 20);
-            this.comboBox8.TabIndex = 120;
-            this.comboBox8.Text = "개발기";
-            // 
-            // label68
-            // 
-            this.label68.Location = new System.Drawing.Point(51, 18);
-            this.label68.Name = "label68";
-            this.label68.Size = new System.Drawing.Size(70, 22);
-            this.label68.TabIndex = 124;
-            this.label68.Text = "서버";
-            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button148
-            // 
-            this.button148.Location = new System.Drawing.Point(186, 52);
-            this.button148.Name = "button148";
-            this.button148.Size = new System.Drawing.Size(126, 23);
-            this.button148.TabIndex = 123;
-            this.button148.Text = "자동 시작 (예약)";
-            this.button148.UseVisualStyleBackColor = true;
-            // 
             // label69
             // 
-            this.label69.Location = new System.Drawing.Point(337, 52);
+            this.label69.Location = new System.Drawing.Point(25, 18);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(70, 22);
             this.label69.TabIndex = 121;
             this.label69.Text = "idle";
             this.label69.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // button149
-            // 
-            this.button149.Location = new System.Drawing.Point(41, 52);
-            this.button149.Name = "button149";
-            this.button149.Size = new System.Drawing.Size(126, 23);
-            this.button149.TabIndex = 122;
-            this.button149.Text = "자동 시작 (일반)";
-            this.button149.UseVisualStyleBackColor = true;
             // 
             // groupBox35
             // 
@@ -7830,11 +7781,7 @@
         private System.Windows.Forms.Label label57;
         private System.Windows.Forms.Button button146;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.ComboBox comboBox8;
-        private System.Windows.Forms.Label label68;
-        private System.Windows.Forms.Button button148;
         private System.Windows.Forms.Label label69;
-        private System.Windows.Forms.Button button149;
         private System.Windows.Forms.GroupBox groupBox35;
         private System.Windows.Forms.Label label71;
         private System.Windows.Forms.TextBox textBox19;
