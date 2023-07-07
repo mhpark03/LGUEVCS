@@ -40,6 +40,9 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label69 = new System.Windows.Forms.Label();
             this.groupBox35 = new System.Windows.Forms.GroupBox();
+            this.textBox28 = new System.Windows.Forms.TextBox();
+            this.label68 = new System.Windows.Forms.Label();
+            this.textBox20 = new System.Windows.Forms.TextBox();
             this.label70 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
             this.button150 = new System.Windows.Forms.Button();
@@ -828,6 +831,9 @@
             // 
             // groupBox35
             // 
+            this.groupBox35.Controls.Add(this.textBox28);
+            this.groupBox35.Controls.Add(this.label68);
+            this.groupBox35.Controls.Add(this.textBox20);
             this.groupBox35.Controls.Add(this.label70);
             this.groupBox35.Controls.Add(this.textBox18);
             this.groupBox35.Controls.Add(this.button150);
@@ -838,16 +844,41 @@
             this.groupBox35.Controls.Add(this.textBox21);
             this.groupBox35.Controls.Add(this.textBox22);
             this.groupBox35.Controls.Add(this.label74);
-            this.groupBox35.Location = new System.Drawing.Point(9, 563);
+            this.groupBox35.Location = new System.Drawing.Point(9, 519);
             this.groupBox35.Name = "groupBox35";
-            this.groupBox35.Size = new System.Drawing.Size(458, 148);
+            this.groupBox35.Size = new System.Drawing.Size(458, 192);
             this.groupBox35.TabIndex = 119;
             this.groupBox35.TabStop = false;
             this.groupBox35.Text = "LTE라우터";
             // 
+            // textBox28
+            // 
+            this.textBox28.Location = new System.Drawing.Point(201, 113);
+            this.textBox28.Name = "textBox28";
+            this.textBox28.Size = new System.Drawing.Size(102, 21);
+            this.textBox28.TabIndex = 93;
+            this.textBox28.Text = "EVARLGU";
+            // 
+            // label68
+            // 
+            this.label68.Location = new System.Drawing.Point(19, 111);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(80, 22);
+            this.label68.TabIndex = 92;
+            this.label68.Text = "Basic Auth";
+            this.label68.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // textBox20
+            // 
+            this.textBox20.Location = new System.Drawing.Point(105, 113);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(90, 21);
+            this.textBox20.TabIndex = 91;
+            this.textBox20.Text = "EVAR";
+            // 
             // label70
             // 
-            this.label70.Location = new System.Drawing.Point(22, 102);
+            this.label70.Location = new System.Drawing.Point(22, 153);
             this.label70.Name = "label70";
             this.label70.Size = new System.Drawing.Size(80, 22);
             this.label70.TabIndex = 90;
@@ -856,7 +887,7 @@
             // 
             // textBox18
             // 
-            this.textBox18.Location = new System.Drawing.Point(108, 104);
+            this.textBox18.Location = new System.Drawing.Point(108, 155);
             this.textBox18.Name = "textBox18";
             this.textBox18.Size = new System.Drawing.Size(32, 21);
             this.textBox18.TabIndex = 89;
@@ -864,7 +895,7 @@
             // 
             // button150
             // 
-            this.button150.Location = new System.Drawing.Point(318, 45);
+            this.button150.Location = new System.Drawing.Point(328, 154);
             this.button150.Name = "button150";
             this.button150.Size = new System.Drawing.Size(104, 22);
             this.button150.TabIndex = 88;
@@ -887,7 +918,7 @@
             this.textBox19.Name = "textBox19";
             this.textBox19.Size = new System.Drawing.Size(206, 21);
             this.textBox19.TabIndex = 84;
-            this.textBox19.Text = "UMT100";
+            this.textBox19.Text = "ELA007C01";
             // 
             // label72
             // 
@@ -900,7 +931,7 @@
             // 
             // button152
             // 
-            this.button152.Location = new System.Drawing.Point(318, 17);
+            this.button152.Location = new System.Drawing.Point(208, 153);
             this.button152.Name = "button152";
             this.button152.Size = new System.Drawing.Size(104, 22);
             this.button152.TabIndex = 80;
@@ -912,9 +943,9 @@
             // 
             this.textBox21.Location = new System.Drawing.Point(106, 18);
             this.textBox21.Name = "textBox21";
-            this.textBox21.Size = new System.Drawing.Size(206, 21);
+            this.textBox21.Size = new System.Drawing.Size(316, 21);
             this.textBox21.TabIndex = 12;
-            this.textBox21.Text = "ws://localhost:8080";
+            this.textBox21.Text = "wss://ws.devevspcharger.uplus.co.kr/ocpp16/";
             // 
             // textBox22
             // 
@@ -960,7 +991,7 @@
             this.groupBox36.Controls.Add(this.button166);
             this.groupBox36.Controls.Add(this.textBox27);
             this.groupBox36.Controls.Add(this.button167);
-            this.groupBox36.Location = new System.Drawing.Point(9, 101);
+            this.groupBox36.Location = new System.Drawing.Point(9, 55);
             this.groupBox36.Name = "groupBox36";
             this.groupBox36.Size = new System.Drawing.Size(461, 443);
             this.groupBox36.TabIndex = 118;
@@ -1112,7 +1143,7 @@
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(167, 21);
             this.textBox26.TabIndex = 102;
-            this.textBox26.Text = "EVSCA070005";
+            this.textBox26.Text = "EVSCA0101629";
             // 
             // button157
             // 
@@ -1220,7 +1251,7 @@
             this.textBox27.Name = "textBox27";
             this.textBox27.Size = new System.Drawing.Size(206, 21);
             this.textBox27.TabIndex = 88;
-            this.textBox27.Text = "1010001482568043";
+            this.textBox27.Text = "0807091107040305";
             // 
             // button167
             // 
@@ -7821,6 +7852,9 @@
         private System.Windows.Forms.Label label70;
         private System.Windows.Forms.TextBox textBox18;
         private System.Windows.Forms.Button button151;
+        private System.Windows.Forms.TextBox textBox28;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.TextBox textBox20;
     }
 }
 

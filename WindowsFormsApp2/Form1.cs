@@ -8,15 +8,19 @@ using System.IO;
 using System.IO.Ports;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Web.UI.WebControls.WebParts;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
-using WebSocketSharp;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using WebSocketState = System.Net.WebSockets.WebSocketState;
 
 /*
 * 8180번 포트 리스닝을 위한 선행 작업 
@@ -28,6 +32,7 @@ namespace WindowsFormsApp2
     public partial class Form1 : Form
     {
         private Thread rTh;
+        private Thread wTh;
 
         private enum states
         {
@@ -530,7 +535,11 @@ namespace WindowsFormsApp2
         Charger charger = new Charger();
         string evstate = string.Empty;
 
-        private WebSocket client;
+        private static ClientWebSocket wsclient = null;
+        private const int sendChunkSize = 256;
+        private const int receiveChunkSize = 64;
+        private const bool verbose = true;
+        private static readonly TimeSpan delay = TimeSpan.FromMilliseconds(1000);
 
         public Form1()
         {
@@ -14358,47 +14367,102 @@ namespace WindowsFormsApp2
 
         private void button152_Click(object sender, EventArgs e)
         {
+            if (wsclient == null)
+            {
+                LogWS(" " + "  " + "Connecting to Server");
+
+                wTh = new Thread(new ThreadStart(webconnect));
+                wTh.Start();
+            }
+            else if (wsclient.State == WebSocketState.Closed)
+            {
+                LogWS(" " + "  " + "Connecting to Server");
+
+                wTh = new Thread(new ThreadStart(webconnect));
+                wTh.Start();
+            }
+        }
+
+        private void webconnect()
+        {
             Console.WriteLine("Client Connected to Server");
-
-            client = new WebSocket(textBox21.Text);
-
-            client.OnOpen += Client_OnOpen;
-
-            client.OnError += Client_OnError;
-
-            client.OnMessage += Client_OnMessage;
-
-            client.OnClose += Client_OnClose;
-
-            client.Connect();
+            string auth = Convert.ToBase64String(Encoding.Default.GetBytes(textBox20.Text + ":" + textBox28.Text));
+            Connect(textBox21.Text + textBox19.Text + "/" + textBox26.Text,auth).Wait();
         }
 
-        private void Client_OnError(object sender, WebSocketSharp.ErrorEventArgs e)
+        private static async Task Connect(string uri,string auth)
         {
-            Console.WriteLine("     Error: " + e.Message);
+
+            try
+            {
+                wsclient = new ClientWebSocket();
+                wsclient.Options.SetRequestHeader("Sec-WebSocket-Protocol", "ocpp1.6");
+                wsclient.Options.SetRequestHeader("Authorization", "Basic " + auth);
+                //wsclient.Options.SetRequestHeader("Authorization", "Basic RVZBUjpFVkFSTEdV");
+                await wsclient.ConnectAsync(new Uri(uri), CancellationToken.None);
+                await Task.WhenAll(Receive());
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception: {0}", ex);
+            }
+            finally
+            {
+                if (wsclient != null)
+                {
+                    wsclient.Dispose();
+                    Console.WriteLine("WebSocket closed.");
+                }
+            }
         }
 
-        private void Client_OnClose(object sender, CloseEventArgs e)
+        private static async Task Send()
         {
-            Console.WriteLine("Client Disconnected");
+            var random = new Random();
+            byte[] buffer = new byte[sendChunkSize];
+
+            if (wsclient.State == WebSocketState.Open)
+            {
+                random.NextBytes(buffer);
+
+                await wsclient.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, CancellationToken.None);
+                LogStatus(false, buffer, buffer.Length);
+            }
         }
 
-        private void Client_OnMessage(object sender, MessageEventArgs e)
+        private static async Task Receive()
         {
-            Console.WriteLine("Receive data : " + e.Data);
-            LogWS("R" + "  " + e.Data);
+            byte[] buffer = new byte[receiveChunkSize];
+            while (wsclient.State == WebSocketState.Open)
+            {
+                var result = await wsclient.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                if (result.MessageType == WebSocketMessageType.Close)
+                {
+                    await wsclient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                }
+                else
+                {
+                    LogStatus(true, buffer, result.Count);
+                }
+            }
         }
 
-        private void Client_OnOpen(object sender, EventArgs e)
+        private static void LogStatus(bool receiving, byte[] buffer, int length)
         {
-            LogWS(" " + "  " + "Connected to Server successfully ");
-            Console.WriteLine(string.Format("Connected to {0} successfully ", textBox21.Text));
+                Console.WriteLine("{0} {1} bytes... ", receiving ? "Received" : "Sent", length);
+
+                if (verbose)
+                    Console.WriteLine(Encoding.Default.GetString(buffer,0,length));
         }
 
         private void button150_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Client Disconnect");
-            client.Close();
+            if (wsclient != null && wsclient.State == WebSocketState.Open)
+            {
+                wsclient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                Console.WriteLine("WebSocket closed.");
+            }
             LogWS(" " + "  " + "Disconnected from Server");
         }
 
@@ -14540,7 +14604,7 @@ namespace WindowsFormsApp2
         private void SendDataToWS(string cmd, string data)
         {
             string senddata = "[2.\"" + charger.logid + "\",\"" + cmd+"\"," + data + "]";
-            client.Send(senddata);
+            //client.Send(senddata);
             LogWS("T" + "  " + senddata);
         }
 
