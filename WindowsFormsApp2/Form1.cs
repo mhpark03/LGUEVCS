@@ -536,10 +536,9 @@ namespace WindowsFormsApp2
         string evstate = string.Empty;
 
         private static ClientWebSocket wsclient = null;
-        private const int sendChunkSize = 256;
-        private const int receiveChunkSize = 64;
-        private const bool verbose = true;
+        private const int receiveChunkSize = 1024;
         private static readonly TimeSpan delay = TimeSpan.FromMilliseconds(1000);
+      
 
         public Form1()
         {
@@ -10748,7 +10747,13 @@ namespace WindowsFormsApp2
                 Console.WriteLine("TCP 연결을 해제하였습니다.");
             }
 
-            string pathname = Application.StartupPath + @"/TestResult/";
+            if (wsclient != null)
+            {
+                wsclient.Dispose();
+                Console.WriteLine("WebSocket closed.");
+            }
+                  
+                string pathname = Application.StartupPath + @"/TestResult/";
             DateTime currenttime = DateTime.Now;
             string filename = null;
 
@@ -14406,27 +14411,24 @@ namespace WindowsFormsApp2
             {
                 Console.WriteLine("Exception: {0}", ex);
             }
-            finally
-            {
-                if (wsclient != null)
-                {
-                    wsclient.Dispose();
-                    Console.WriteLine("WebSocket closed.");
-                }
-            }
+//            finally
+//            {
+//                if (wsclient != null)
+//                {
+//                    wsclient.Dispose();
+//                    Console.WriteLine("WebSocket closed.");
+//                }
+//            }
         }
 
-        private static async Task Send()
+        private static async Task Send(string senddata)
         {
-            var random = new Random();
-            byte[] buffer = new byte[sendChunkSize];
-
             if (wsclient.State == WebSocketState.Open)
             {
-                random.NextBytes(buffer);
+                ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(senddata));
 
-                await wsclient.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Binary, false, CancellationToken.None);
-                LogStatus(false, buffer, buffer.Length);
+                await wsclient.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
+                LogStatus(false, Encoding.UTF8.GetBytes(senddata), senddata.Length);
             }
         }
 
@@ -14449,10 +14451,9 @@ namespace WindowsFormsApp2
 
         private static void LogStatus(bool receiving, byte[] buffer, int length)
         {
-                Console.WriteLine("{0} {1} bytes... ", receiving ? "Received" : "Sent", length);
+            Console.WriteLine("{0} {1} bytes... ", receiving ? "Received" : "Sent", length);
 
-                if (verbose)
-                    Console.WriteLine(Encoding.Default.GetString(buffer,0,length));
+            Console.WriteLine(Encoding.Default.GetString(buffer, 0, length));
         }
 
         private void button150_Click(object sender, EventArgs e)
@@ -14474,17 +14475,10 @@ namespace WindowsFormsApp2
         private void wsevcarBoot(string reason)
         {
             var json = new JObject();
-            json.Add("Reason", reason);
             json.Add("chargePointSerialNumber", textBox26.Text);
             json.Add("chargePointVendor", textBox22.Text);
             json.Add("chargePointModel", textBox19.Text);
             json.Add("firmwareVersion", tBoxDeviceVer.Text);
-            json.Add("lccid", charger.iccid);
-            json.Add("Imsi", charger.imsi);
-            json.Add("meterSerialNumber", textBox23.Text);
-            json.Add("rssi", charger.rssi);
-            json.Add("rsrp", charger.rsrp);
-            json.Add("snr", charger.snr);
 
             SendDataToWS("BootNotification", json.ToString());
         }
@@ -14603,9 +14597,15 @@ namespace WindowsFormsApp2
 
         private void SendDataToWS(string cmd, string data)
         {
-            string senddata = "[2.\"" + charger.logid + "\",\"" + cmd+"\"," + data + "]";
-            //client.Send(senddata);
-            LogWS("T" + "  " + senddata);
+            if (wsclient.State == WebSocketState.Open)
+            {
+                string senddata = "[2.\"" + charger.logid + "\",\"" + cmd + "\"," + data + "]";
+                var t = Task.Run(() => Send(senddata));
+                t.Wait();
+                //Send(senddata).Wait();
+
+                LogWS("T" + "  " + senddata);
+            }
         }
 
         private void button167_Click(object sender, EventArgs e)
