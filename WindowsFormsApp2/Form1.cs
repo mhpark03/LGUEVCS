@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ToolTip;
 using WebSocketState = System.Net.WebSockets.WebSocketState;
 
 /*
@@ -14421,15 +14422,21 @@ namespace WindowsFormsApp2
 //            }
         }
 
-        private static async Task Send(string senddata)
+        private bool Send(string senddata)
         {
-            if (wsclient.State == WebSocketState.Open)
+            if (wsclient.State != WebSocketState.Open)
+                return false;
+
+            Task.Run(async () =>
             {
+                senddata = senddata.Replace("\r\n", string.Empty);
+                senddata = senddata.Replace(" ", string.Empty);
                 ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(senddata));
 
                 await wsclient.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
                 LogStatus(false, Encoding.UTF8.GetBytes(senddata), senddata.Length);
-            }
+            });
+            return true;
         }
 
         private static async Task Receive()
@@ -14461,8 +14468,24 @@ namespace WindowsFormsApp2
             Console.WriteLine("Client Disconnect");
             if (wsclient != null && wsclient.State == WebSocketState.Open)
             {
-                wsclient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
-                Console.WriteLine("WebSocket closed.");
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        await wsclient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                        Console.WriteLine("WebSocket closed.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message.ToString());
+                    }
+
+                    wsclient.Abort();
+                    wsclient.Dispose();
+                });
+            }
+            if (wsclient != null && wsclient.State == WebSocketState.Open)
+            {
             }
             LogWS(" " + "  " + "Disconnected from Server");
         }
@@ -14599,7 +14622,7 @@ namespace WindowsFormsApp2
         {
             if (wsclient.State == WebSocketState.Open)
             {
-                string senddata = "[2.\"" + charger.logid + "\",\"" + cmd + "\"," + data + "]";
+                string senddata = "[2,\"" + charger.logid + "\",\"" + cmd + "\"," + data + "]";
                 var t = Task.Run(() => Send(senddata));
                 t.Wait();
                 //Send(senddata).Wait();
