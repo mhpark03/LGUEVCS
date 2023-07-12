@@ -539,11 +539,14 @@ namespace WindowsFormsApp2
         private static ClientWebSocket wsclient = null;
         private const int receiveChunkSize = 1024;
         private static readonly TimeSpan delay = TimeSpan.FromMilliseconds(1000);
+
+        public static Form1 instance;
       
 
         public Form1()
         {
             InitializeComponent();
+            instance = this;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -977,6 +980,9 @@ namespace WindowsFormsApp2
             charger.entityId = string.Empty;
             charger.server = "dev";
             charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_boot";
+            charger.rssi = "0";
+            charger.rsrp = "0";
+            charger.snr = "0";
         }
 
         private void doOpenComPort()
@@ -14429,8 +14435,6 @@ namespace WindowsFormsApp2
 
             Task.Run(async () =>
             {
-                senddata = senddata.Replace("\r\n", string.Empty);
-                senddata = senddata.Replace(" ", string.Empty);
                 ArraySegment<byte> bytesToSend = new ArraySegment<byte>(Encoding.UTF8.GetBytes(senddata));
 
                 await wsclient.SendAsync(bytesToSend, WebSocketMessageType.Text, true, CancellationToken.None);
@@ -14448,11 +14452,163 @@ namespace WindowsFormsApp2
                 if (result.MessageType == WebSocketMessageType.Close)
                 {
                     await wsclient.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, CancellationToken.None);
+                    instance.LogWS("R" + "  " + "Server Disconnected");
                 }
                 else
                 {
                     LogStatus(true, buffer, result.Count);
+                    string rcvdata = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                    instance.LogWS("R" + "  " + rcvdata);
+                    instance.wsparseRemoteCMD(rcvdata);
+
                 }
+            }
+        }
+        private void wsparseRemoteCMD(string rcvdata)
+        {
+            int lflength = rcvdata.IndexOf("{");
+            string cmddata = rcvdata.Substring(lflength,rcvdata.Length-lflength-1);
+
+            string[] words = rcvdata.Split(',');
+
+            string cmdtype = words[0].Replace("[", string.Empty);
+            if (cmdtype == "2")
+            {
+                string cmd = words[2];
+                charger.logid = words[1];
+
+                JObject obj = JObject.Parse(cmddata);
+
+                string transid = string.Empty;
+                switch (cmd)
+                {
+                    case "RemoteStartTransaction":
+                        Console.WriteLine("Receive RemoteStartTransaction !!!");
+
+                        string idtag = (obj["idTag"] ?? " ").ToString();
+                        textBox27.Invoke(new LogToForm(wssetParam), new object[] { "1" + idtag });
+                        transid = (obj["transactionId"] ?? " ").ToString();
+                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+
+                        charger.state = "remotestart";
+                        label69.Invoke(new LogToForm(wssetParam), new object[] { "3" + charger.state });
+
+                        //evcarStatusNT("Preparing");
+                        //Delay(1000);
+
+                        //evcarTariff();
+                        //Delay(1000);
+
+                        //evcarCost();
+                        //Delay(1000);
+
+                        //evcarStart();
+                        break;
+                    case "RemoteStopTransaction":
+                        Console.WriteLine("Receive RemoteStopTransaction !!!");
+
+                        transid = (obj["transactionId"] ?? " ").ToString();
+                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+                        //evcarStop();
+                        break;
+                    case "TriggerMessage":
+                        Console.WriteLine("Receive RemoteStartTransaction !!!");
+
+                        string reqmsg = (obj["requestedMessage"] ?? " ").ToString();
+                        string cid = (obj["connectedId"] ?? " ").ToString();
+                        Console.WriteLine("Receive TriggerMessage : " + reqmsg + "(" + cid + ")");
+                        if (reqmsg == "BootNotification")
+                        {
+                            charger.state = "boot";
+                            label69.Invoke(new LogToForm(wssetParam), new object[] { "3" + charger.state });
+                            //evcarBoot("Triggered");
+                        }
+                        else if (reqmsg == "MeterValues")
+                        {
+                            charger.watt = 0;
+                            //evcarMeter();
+                        }
+                        break;
+                    case "UpdateFirmware":
+                        Console.WriteLine("Receive UpdateFirmware !!!");
+
+                        string location = (obj["location"] ?? " ").ToString();
+                        textBox11.Invoke(new LogToForm(wssetParam), new object[] { "4" + location });
+                        Console.WriteLine("UpdateFirmware : " + location);
+                        evcarFOTA("Downloading");
+                        break;
+                    case "Reset":
+                        Console.WriteLine("Receive Reset !!!");
+                        string type = (obj["type"] ?? " ").ToString();
+                        Console.WriteLine("Reset type : " + type);
+                        evcarBoot("RemoteRest");
+                        break;
+                    case "GetDiagnostics":
+                        Console.WriteLine("Receive GetDiagnostics !!!");
+                        string loc = (obj["location"] ?? " ").ToString();
+                        textBox16.Invoke(new LogToForm(wssetParam), new object[] { "5" + loc });
+                        Console.WriteLine("GetDiagnostics : " + loc);
+                        evcarDiag("Uploading");
+                        break;
+                    case "UnlockConnector":
+                        Console.WriteLine("Receive UnlockConnector !!!");
+                        evcarUnlock();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if (cmdtype == "3")
+            {
+                charger.logid = words[1];
+
+                JObject obj = JObject.Parse(cmddata);
+
+                string transid = string.Empty;
+                switch (charger.state)
+                {
+                    case "start":
+                        Console.WriteLine("Response of StartTransaction !!!");
+
+                        transid = (obj["transactionId"] ?? " ").ToString();
+                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+            else if (cmdtype == "4")
+            {
+                Console.WriteLine("ERROR Response !!!");
+            }
+
+        }
+
+        private void wssetParam(string msg)
+        {
+            string kind = msg.Substring(0, 1);
+            switch (kind)
+            {
+                case "1":       // idTag
+                    textBox27.Text = msg.Substring(1);
+                    Console.WriteLine("idTag = " + textBox15.Text);
+                    break;
+                case "2":       // transactionId
+                    textBox25.Text = msg.Substring(1);
+                    Console.WriteLine("transactionId = " + textBox9.Text);
+                    break;
+                case "3":       // state
+                    label69.Text = msg.Substring(1);
+                    break;
+                case "4":       // fota url
+                    textBox11.Text = msg.Substring(1);
+                    break;
+                case "5":       // diag url
+                    textBox16.Text = msg.Substring(1);
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -14503,6 +14659,7 @@ namespace WindowsFormsApp2
             json.Add("chargePointModel", textBox19.Text);
             json.Add("firmwareVersion", tBoxDeviceVer.Text);
 
+            charger.state = "boot";
             SendDataToWS("BootNotification", json.ToString());
         }
 
@@ -14539,14 +14696,14 @@ namespace WindowsFormsApp2
             json2.Add("reason", "None");
             json2.Add("cpv", 100);
             json2.Add("rv", 11);
-            json.Add("info", json2);
+            json.Add("info", json2.ToString());
 
             json.Add("status", status);
 
             json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
-            json.Add("vendorErrorCode", "");
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
 
+            charger.state = "status";
             SendDataToWS("StatusNotification", json.ToString());
         }
 
@@ -14585,9 +14742,9 @@ namespace WindowsFormsApp2
             json.Add("status", "Fault");
 
             json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
-            json.Add("vendorErrorCode", "");
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
 
+            charger.state = "status";
             SendDataToWS("StatusNotification", json.ToString());
         }
 
@@ -14601,20 +14758,22 @@ namespace WindowsFormsApp2
             charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_heart";
 
             var json = new JObject();
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
             json.Add("messageId", "heartbeat");
 
             var json2 = new JObject();
-            json2.Add("rssi", charger.rssi);
-            json2.Add("rsrp", charger.rsrp);
-            json2.Add("snr", charger.snr);
+            json2.Add("rssi", int.Parse(charger.rssi));
+            json2.Add("rsrp", int.Parse(charger.rsrp));
+            json2.Add("snr", int.Parse(charger.snr));
             json.Add("data", json2);
 
-            SendDataToWS("DataTranfer", json.ToString());
+            charger.state = "heartbeat";
+            SendDataToWS("DataTransfer", json.ToString());
         }
 
         private void button151_Click(object sender, EventArgs e)
         {
+            charger.state = "heart";
             SendDataToWS("Heartbeat", "{}");
         }
 
@@ -14622,7 +14781,7 @@ namespace WindowsFormsApp2
         {
             if (wsclient.State == WebSocketState.Open)
             {
-                string senddata = "[2,\"" + charger.logid + "\",\"" + cmd + "\"," + data + "]";
+                string senddata = "[2,\"" + DateTime.Now.ToString("yyyyMMddHHmmss") + "\",\"" + cmd + "\"," + data + "]";
                 var t = Task.Run(() => Send(senddata));
                 t.Wait();
                 //Send(senddata).Wait();
@@ -14633,11 +14792,10 @@ namespace WindowsFormsApp2
 
         private void button167_Click(object sender, EventArgs e)
         {
-            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_auth";
-
             var json = new JObject();
             json.Add("idTag", textBox27.Text);
 
+            charger.state = "auth";
             SendDataToWS("Authorize", json.ToString());
             }
 
@@ -14649,7 +14807,7 @@ namespace WindowsFormsApp2
         private void wsevcarTariff()
         {
             var json = new JObject();
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
             json.Add("messageId", "Tariff");
 
             var json2 = new JObject();
@@ -14658,6 +14816,7 @@ namespace WindowsFormsApp2
             json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
 
+            charger.state = "tariff";
             SendDataToWS("DataTransfer", json.ToString());
         }
 
@@ -14669,25 +14828,23 @@ namespace WindowsFormsApp2
         private void wsevcarCost()
         {
             var json = new JObject();
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
             json.Add("messageId", "chargeValue");
 
             var json2 = new JObject();
             json2.Add("connectorId", int.Parse(textBox18.Text));
             json2.Add("idTag", textBox27.Text);
-            if (textBox9.Text != String.Empty)
+            if (textBox25.Text != String.Empty)
                 json2.Add("transactionId", Convert.ToUInt64(textBox25.Text));
-            else
-                json2.Add("transactionId", "");
             json2.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("data", json2);
 
+            charger.state = "cost";
             SendDataToWS("DataTransfer", json.ToString());
         }
 
         private void button161_Click(object sender, EventArgs e)
         {
-            charger.state = "start";
             wsevcarStart();
         }
 
@@ -14701,6 +14858,7 @@ namespace WindowsFormsApp2
             if (charger.state == "remotestart")
                 json.Add("reservationId", textBox25.Text);
 
+            charger.state = "start";
             SendDataToWS("StartTransaction", json.ToString());
         }
 
@@ -14758,6 +14916,7 @@ namespace WindowsFormsApp2
             jarray.Add(json2);
             json.Add("meterValue", jarray);
 
+            charger.state = "metervalue";
             SendDataToWS("MeterValues", json.ToString());
         }
 
@@ -14792,15 +14951,14 @@ namespace WindowsFormsApp2
             json.Add("timestamp", DateTime.Now.ToLocalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
             json.Add("transactionId", Convert.ToUInt64(textBox25.Text));
 
+            charger.state = "stop";
             SendDataToWS("StopTransaction", json.ToString());
         }
 
         private void button153_Click(object sender, EventArgs e)
         {
-            charger.logid = DateTime.Now.ToString("yyyyMMddHHmmss") + "_resend";
-
             var json = new JObject();
-            json.Add("vendorId", "LGU");
+            json.Add("vendorId", textBox22.Text);
             json.Add("messageId", "untransmittedMsg");
 
             var json2 = new JObject();
@@ -14819,7 +14977,7 @@ namespace WindowsFormsApp2
             json4.Add("Content-Type", "application/json");
             json4.Add("X-EVC-RI", "20220627125034_boot");
             json4.Add("X-EVC-BOX", "114100005140A");
-            json4.Add("X-EVC-MDL", "UMT100");
+            json4.Add("X-EVC-MDL", textBox19.Text);
             json4.Add("X-EVC-OS", "Windows10");
             json4.Add("X-EVC-SN", "123456");
             json3.Add("msgHeader", json4);
@@ -14856,7 +15014,7 @@ namespace WindowsFormsApp2
             json4.Add("Content-Type", "application/json");
             json4.Add("X-EVC-RI", "20220627125034_boot");
             json4.Add("X-EVC-BOX", "114100005140A");
-            json4.Add("X-EVC-MDL", "UMT100");
+            json4.Add("X-EVC-MDL", textBox19.Text);
             json4.Add("X-EVC-OS", "Windows10");
             json4.Add("X-EVC-SN", "123456");
             json3.Add("msgHeader", json4);
@@ -14873,7 +15031,7 @@ namespace WindowsFormsApp2
 
             json5.Add("timestamp", "2022-06-27T04:06:13Z");
             json5.Add("vendorErrorCode", "");
-            json5.Add("vendorId", "LGU");
+            json5.Add("vendorId", textBox22.Text);
 
             json3.Add("msgContent", json5);
 
@@ -14883,6 +15041,7 @@ namespace WindowsFormsApp2
             json2.Add("msglist", jarray);
             json.Add("data", json2);
 
+            charger.state = "resend";
             SendDataToWS("DataTransfer", json.ToString());
         }
     }
