@@ -516,7 +516,7 @@ namespace WindowsFormsApp2
         // 검수서버
         string stgbrkUrl = "http://devbrk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
         string stgmefUrl = "https://devmef.onem2m.uplus.co.kr:443";  // MEF(검수기)
-        string stgcshosturl = "https://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
+        string stgcshosturl = "http://stgevspcharger.uplus.co.kr";   // EVSP(검수기)
 
         // 상용서버
         string opbrkUrl = "http://brk1.onem2m.uplus.co.kr:8080"; // BRK(oneM2M 검수기)       
@@ -14464,6 +14464,7 @@ namespace WindowsFormsApp2
                 }
             }
         }
+
         private void wsparseRemoteCMD(string rcvdata)
         {
             int lflength = rcvdata.IndexOf("{");
@@ -14474,88 +14475,97 @@ namespace WindowsFormsApp2
             string cmdtype = words[0].Replace("[", string.Empty);
             if (cmdtype == "2")
             {
-                string cmd = words[2];
-                charger.logid = words[1];
+                string cmd = words[2].Replace("\"", string.Empty).Replace(" ", string.Empty);
+                charger.logid = words[1].Replace("\"", string.Empty).Replace(" ", string.Empty);
 
                 JObject obj = JObject.Parse(cmddata);
 
                 string transid = string.Empty;
-                switch (cmd)
+                if (cmd == "RemoteStartTransaction")
                 {
-                    case "RemoteStartTransaction":
-                        Console.WriteLine("Receive RemoteStartTransaction !!!");
+                    Console.WriteLine("Receive RemoteStartTransaction !!!");
 
-                        string idtag = (obj["idTag"] ?? " ").ToString();
+                    if (obj["idTag"] != null)
+                    {
+                        string idtag = obj["idTag"].ToString();
                         textBox27.Invoke(new LogToForm(wssetParam), new object[] { "1" + idtag });
-                        transid = (obj["transactionId"] ?? " ").ToString();
-                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
 
-                        charger.state = "remotestart";
-                        label69.Invoke(new LogToForm(wssetParam), new object[] { "3" + charger.state });
-
-                        //evcarStatusNT("Preparing");
-                        //Delay(1000);
-
-                        //evcarTariff();
-                        //Delay(1000);
-
-                        //evcarCost();
-                        //Delay(1000);
-
-                        //evcarStart();
-                        break;
-                    case "RemoteStopTransaction":
-                        Console.WriteLine("Receive RemoteStopTransaction !!!");
-
-                        transid = (obj["transactionId"] ?? " ").ToString();
-                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
-                        //evcarStop();
-                        break;
-                    case "TriggerMessage":
-                        Console.WriteLine("Receive RemoteStartTransaction !!!");
-
-                        string reqmsg = (obj["requestedMessage"] ?? " ").ToString();
-                        string cid = (obj["connectedId"] ?? " ").ToString();
-                        Console.WriteLine("Receive TriggerMessage : " + reqmsg + "(" + cid + ")");
-                        if (reqmsg == "BootNotification")
+                        JObject txprofile = JObject.Parse(obj["chargingProfile"].ToString());
+                        if (txprofile["transactionId"] != null)
                         {
-                            charger.state = "boot";
+                            transid = (txprofile["transactionId"] ?? " ").ToString();
+                            textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+
+                            charger.state = "remotestart";
                             label69.Invoke(new LogToForm(wssetParam), new object[] { "3" + charger.state });
-                            //evcarBoot("Triggered");
-                        }
-                        else if (reqmsg == "MeterValues")
-                        {
-                            charger.watt = 0;
-                            //evcarMeter();
-                        }
-                        break;
-                    case "UpdateFirmware":
-                        Console.WriteLine("Receive UpdateFirmware !!!");
 
-                        string location = (obj["location"] ?? " ").ToString();
-                        textBox11.Invoke(new LogToForm(wssetParam), new object[] { "4" + location });
-                        Console.WriteLine("UpdateFirmware : " + location);
-                        evcarFOTA("Downloading");
-                        break;
-                    case "Reset":
-                        Console.WriteLine("Receive Reset !!!");
-                        string type = (obj["type"] ?? " ").ToString();
-                        Console.WriteLine("Reset type : " + type);
-                        evcarBoot("RemoteRest");
-                        break;
-                    case "GetDiagnostics":
-                        Console.WriteLine("Receive GetDiagnostics !!!");
-                        string loc = (obj["location"] ?? " ").ToString();
-                        textBox16.Invoke(new LogToForm(wssetParam), new object[] { "5" + loc });
-                        Console.WriteLine("GetDiagnostics : " + loc);
-                        evcarDiag("Uploading");
-                        break;
-                    case "UnlockConnector":
-                        Console.WriteLine("Receive UnlockConnector !!!");
-                        evcarUnlock();
-                        break;
-                    default:
-                        break;
+                            RespDataToWS("{\"status\": \"Accepted\"}");
+                        }
+                    }
+                }
+                else if (cmd == "RemoteStopTransaction")
+                {
+                    Console.WriteLine("Receive RemoteStopTransaction !!!");
+
+                    if (obj["transactionId"] != null)
+                    {
+                        transid = obj["transactionId"].ToString();
+                        if (transid == textBox25.Text)
+                        {
+                            RespDataToWS("{\"status\": \"Accepted\"}");
+                            //evcarStop();
+                        }
+                        else
+                            RespDataToWS("{\"status\": \"Rejected\"}");
+                    }
+                }
+                else if (cmd == "TriggerMessage")
+                {
+                    Console.WriteLine("Receive RemoteStartTransaction !!!");
+
+                    string reqmsg = (obj["requestedMessage"] ?? " ").ToString();
+                    string cid = (obj["connectedId"] ?? " ").ToString();
+                    Console.WriteLine("Receive TriggerMessage : " + reqmsg + "(" + cid + ")");
+                    if (reqmsg == "BootNotification")
+                    {
+                        charger.state = "boot";
+                        label69.Invoke(new LogToForm(wssetParam), new object[] { "3" + charger.state });
+                        //evcarBoot("Triggered");
+                    }
+                    else if (reqmsg == "MeterValues")
+                    {
+                        charger.watt = 0;
+                        //evcarMeter();
+                    }
+                }
+                else if (cmd == "UpdateFirmware")
+                {
+                    Console.WriteLine("Receive UpdateFirmware !!!");
+
+                    string location = (obj["location"] ?? " ").ToString();
+                    textBox11.Invoke(new LogToForm(wssetParam), new object[] { "4" + location });
+                    Console.WriteLine("UpdateFirmware : " + location);
+                    //evcarFOTA("Downloading");
+                }
+                else if (cmd == "UpdateFirmware")
+                {
+                    Console.WriteLine("Receive Reset !!!");
+                    string type = (obj["type"] ?? " ").ToString();
+                    Console.WriteLine("Reset type : " + type);
+                    //evcarBoot("RemoteRest");
+                }
+                else if (cmd == "GetDiagnostics")
+                {
+                    Console.WriteLine("Receive GetDiagnostics !!!");
+                    string loc = (obj["location"] ?? " ").ToString();
+                    textBox16.Invoke(new LogToForm(wssetParam), new object[] { "5" + loc });
+                    Console.WriteLine("GetDiagnostics : " + loc);
+                    //evcarDiag("Uploading");
+                }
+                else if (cmd == "UnlockConnector")
+                {
+                    Console.WriteLine("Receive UnlockConnector !!!");
+                    evcarUnlock();
                 }
             }
             else if (cmdtype == "3")
@@ -14570,8 +14580,11 @@ namespace WindowsFormsApp2
                     case "start":
                         Console.WriteLine("Response of StartTransaction !!!");
 
-                        transid = (obj["transactionId"] ?? " ").ToString();
-                        textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+                        if (obj["transactionId"] != null)
+                        {
+                            transid = obj["transactionId"].ToString();
+                            textBox25.Invoke(new LogToForm(wssetParam), new object[] { "2" + transid });
+                        }
                         break;
 
                     default:
@@ -14609,6 +14622,19 @@ namespace WindowsFormsApp2
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void RespDataToWS(string data)
+        {
+            if (wsclient.State == WebSocketState.Open)
+            {
+                string senddata = "[3,\"" + charger.logid + "\"," +  data + "]";
+                var t = Task.Run(() => Send(senddata));
+                t.Wait();
+                //Send(senddata).Wait();
+
+                LogWS("T" + "  " + senddata);
             }
         }
 
